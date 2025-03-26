@@ -1,39 +1,61 @@
 import React from "react";
+import { motion } from "framer-motion";
 import Container from "./layer/Container";
 import { FaBarsStaggered } from "react-icons/fa6";
 import { IoSearchOutline } from "react-icons/io5";
 import { FiShoppingBag } from "react-icons/fi";
 import Image from "next/image";
-import favicon from "../../public/blackFavicon.png";
 import whiteLogo from "../../public/whiteLogo.png";
 import Link from "next/link";
 
 const Navbar = () => {
   return (
-    <nav className="absolute top-0 left-0 right-0 w-full -translate-y-1/6 sm:translate-y-0 " >
+    <motion.nav
+      initial={{ opacity: 0, y: -50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.9, ease: "easeOut" }}
+      className="absolute top-0 left-0 right-0 w-full"
+    >
       <Container>
-        <div className="main flex justify-between items-center w-full py-3 sm:py-0">
-          <div className="menuBtn hidden sm:flex invisible">
+        <div className="main flex justify-between items-center w-full py-0 ">
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="menuBtn hidden sm:flex invisible"
+          >
             <FaBarsStaggered />
-          </div>
+          </motion.div>
           <div className="logo">
             <Link href="/">
-              <div className="main flex w-40 pb-4">
-                <Image className="" src={whiteLogo} alt="logo" />
-              </div>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1 }}
+                className="main flex w-40 pb-4 hover:scale-110 duration-300"
+              >
+                <Image src={whiteLogo} alt="logo" />
+              </motion.div>
             </Link>
           </div>
-          <div className="btn  text-white flex items-center gap-x-4 text-2xl">
-            <div className="search">
+          <div className="btn text-white flex items-center gap-x-4 text-2xl">
+            <motion.div
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
+              className="search cursor-pointer"
+            >
               <IoSearchOutline />
-            </div>
-            <div className="cart">
+            </motion.div>
+            <motion.div
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
+              className="cart cursor-pointer"
+            >
               <FiShoppingBag />
-            </div>
+            </motion.div>
           </div>
         </div>
       </Container>
-    </nav>
+    </motion.nav>
   );
 };
 
