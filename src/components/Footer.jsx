@@ -10,7 +10,7 @@ const Footer = () => {
           <div className="policy flex items-center justify-center gap-x-5 xl:gap-10 text-sm md:text-base">
             {["Privacy Policy", "Terms & Conditions", "Help"].map(
               (item, index) => (
-                <p className="hover:underline duration-300 text-nowrap ">
+                <p key={index} className="hover:underline duration-300 text-nowrap ">
                   {item}
                 </p>
               )
