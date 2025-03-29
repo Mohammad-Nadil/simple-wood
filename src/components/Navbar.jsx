@@ -13,7 +13,7 @@ const Navbar = () => {
     <motion.nav
       initial={{ opacity: 0, y: -50 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.9, ease: "easeOut" }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
       className="absolute top-0 left-0 right-0 w-full"
     >
       <Container>
@@ -30,7 +30,7 @@ const Navbar = () => {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1 }}
+                transition={{ delay: 0.5 }}
                 className="main flex w-40 pb-4 hover:scale-110 duration-300"
               >
                 <Image src={whiteLogo} alt="logo" />

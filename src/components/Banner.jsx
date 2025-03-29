@@ -25,6 +25,8 @@ const Banner = () => {
     infinite: true,
     arrows: false,
     speed: 500,
+    autoplay: true,
+    autoplaySpeed: 3000,
     slidesToShow: 1,
     slidesToScroll: 1,
     appendDots: (dots) => (
@@ -89,24 +91,28 @@ const Banner = () => {
                     </Link>
                   </div>
                 </motion.div>
-                <div className="gallery w-full sm:w-1/2 grid grid-cols-5 grid-rows-2 gap-4 items-center">
-                  {[img1, img2, img3].map((image, idx) => (
-                    <motion.div
-                      key={idx}
-                      initial={{ scale: 0.9, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      transition={{ duration: 0.6, delay: 0.2 * idx }}
-                      className={`col-span-${idx === 1 ? "3" : "2"} row-span-${
-                        idx === 1 ? "2" : "1"
-                      } overflow-hidden`}
-                    >
-                      <Image
-                        src={image}
-                        alt="banner image"
-                        className="w-full object-contain hover:scale-110 duration-500"
-                      />
-                    </motion.div>
-                  ))}
+                <div className="gallery w-full sm:w-1/2  grid grid-cols-5 grid-rows-2 gap-4  items-center">
+                  <div className="col-span-2 row-span-1 overflow-hidden">
+                    <Image
+                      src={img1}
+                      alt="banner image"
+                      className="w-full object-contain hover:scale-110 duration-500"
+                    />
+                  </div>
+                  <div className="col-span-3 row-span-2 overflow-hidden">
+                    <Image
+                      src={img2}
+                      alt="banner image"
+                      className="w-full object-contain hover:scale-110 duration-500"
+                    />
+                  </div>
+                  <div className="col-span-2 row-span-1 overflow-hidden">
+                    <Image
+                      src={img3}
+                      alt="banner image"
+                      className="w-full object-contain hover:scale-110 duration-500"
+                    />
+                  </div>
                 </div>
               </div>
             </motion.div>

@@ -4,6 +4,7 @@ import Container from "@/components/layer/Container";
 import ProductCard from "@/components/layer/ProductCard";
 import React, { useEffect, useRef, useState } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
+import { IoMdClose } from "react-icons/io";
 
 const page = () => {
   const [openSection, setOpenSection] = useState(null);
@@ -66,16 +67,19 @@ const page = () => {
         {/* Filter Section */}
         <div
           ref={filterRef}
-          className={`filter absolute sm:static w-[80vw] sm:w-1/4 sm:flex flex-col gap-3 bg-green-200 sm:bg-white p-3 sm:p-0 rounded ${
+          className={`filter absolute sm:static w-[80vw] sm:w-1/4 sm:flex flex-col  bg-white p-3 sm:py-0 rounded  border border-secondary sm:border-transparent ${
             filter ? "translate-x-0" : "translate-x-[-120%]"
           } transition-transform duration-500 ease-in-out sm:translate-x-0`}
         >
-          <p className="text-lg font-semibold">Filters</p>
+          <div className="flex justify-between items-center" > <p className="text-lg font-semibold py-3">Filters</p>
+          <div className="close sm:hidden text-2xl" onClick={() => setFilter(false)} ><IoMdClose /></div></div>
+         
+          
 
           {/* Category Section */}
           <div>
             <p
-              className="font-medium text-gray-700 cursor-pointer flex justify-between items-center"
+              className="font-medium text-gray-700 cursor-pointer flex justify-between items-center border-t border-b border-secondary py-2"
               onClick={() => toggleSection("category")}
             >
               Category
@@ -109,7 +113,7 @@ const page = () => {
           {/* Wood Type Section */}
           <div>
             <p
-              className="font-medium text-gray-700 cursor-pointer flex justify-between items-center"
+              className="font-medium text-gray-700 cursor-pointer flex justify-between items-center border-t border-b border-secondary py-2"
               onClick={() => toggleSection("wood")}
             >
               Wood Type
@@ -143,7 +147,7 @@ const page = () => {
           {/* Finish Section */}
           <div>
             <p
-              className="font-medium text-gray-700 cursor-pointer flex justify-between items-center"
+              className="font-medium text-gray-700 cursor-pointer flex justify-between items-center border-t border-b border-secondary py-2"
               onClick={() => toggleSection("finish")}
             >
               Finish
@@ -177,12 +181,12 @@ const page = () => {
         <div className="sm:w-3/4 flex flex-col gap-y-5 py-3 md:py-0">
           <div className="sort flex items-center justify-between gap-x-3 text-gray-700 text-sm md:text-base">
             <button
-              className="cursor-pointer py-1.5 px-2 border border-gray-300 text-xl sm:invisible"
+              className="cursor-pointer py-1.5 px-2 border border-gray-300 text-xl sm:invisible rounded"
               onClick={() => setFilter(!filter)}
             >
               Filter
             </button>
-            <div className="flex gap-x-3 items-center" >
+            <div className="flex gap-x-3 items-center">
               <p className="font-medium">Sort by:</p>
               <select className="border border-gray-300 rounded-md px-1.5 sm:px-3 py-1.5 text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary transition">
                 <option>Default sorting</option>
