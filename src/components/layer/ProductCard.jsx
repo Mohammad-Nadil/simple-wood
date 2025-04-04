@@ -4,9 +4,9 @@ import { FaStar } from "react-icons/fa6";
 
 const ProductCard = () => {
   return (
-    <Link className="group" href="/products/1">
+    <Link className="group " href="/products/1">
     <div className=" flex flex-col sm:gap-3 ">
-      <div className="img p-4 xl:p-11 overflow-hidden border-secondary border-2 hover:border-primary duration-300">
+      <div className="img p-4 xl:p-11 overflow-hidden border-secondary border-2 group-hover:border-primary duration-300">
         <img
           src="/example.png"
           alt="image"

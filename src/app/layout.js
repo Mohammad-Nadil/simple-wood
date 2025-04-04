@@ -20,10 +20,10 @@ export default function RootLayout({ children }) {
           />
         </head>
         <Provider store={store}>
-          <body cz-shortcut-listen="true">
+          <body cz-shortcut-listen="true" className="flex flex-col">
             <Navbar />
             {children}
-            <Footer/>
+            <Footer />
           </body>
         </Provider>
       </html>

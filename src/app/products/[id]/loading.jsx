@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const loading = () => {
   return (
-    <div>
+    <div className="flex justify-center items-center h-screen" >
       <StyledWrapper>
         <div className="loader">
           <span className="loader-text">Loading...</span>
