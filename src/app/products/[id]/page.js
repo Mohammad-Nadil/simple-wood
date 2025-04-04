@@ -149,24 +149,28 @@ const page = () => {
                   width={""}
                   height={""}
                   src={img}
+                  alt="product image"
                 />
                 <Image
                   className="w-full h-full object-contain scale-x-[-1]  "
                   width={""}
                   height={""}
                   src={img}
+                  alt="product image"
                 />
                 <Image
                   className="w-full h-full object-contain"
                   width={""}
                   height={""}
                   src={img}
+                  alt="product image"
                 />
                 <Image
                   className="w-full h-full object-contain scale-x-[-1] "
                   width={""}
                   height={""}
                   src={img}
+                  alt="product image"
                 />
               </Slider>
             </div>

@@ -45,13 +45,15 @@ const Navbar = () => {
             >
               <IoSearchOutline />
             </motion.div>
-            <motion.div
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 0.9 }}
-              className="cart cursor-pointer"
-            >
-              <FiShoppingBag />
-            </motion.div>
+            <Link href="/cart">
+              <motion.div
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 0.9 }}
+                className="cart cursor-pointer"
+              >
+                <FiShoppingBag />
+              </motion.div>
+            </Link>
           </div>
         </div>
       </Container>
