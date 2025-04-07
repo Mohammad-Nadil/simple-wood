@@ -29,7 +29,7 @@ const Catalogue = () => {
 
   return (
     <section>
-      <Container className="flex gap-x-5 py-5">
+      <Container className="flex gap-x-2.5 md:gap-x-5 py-5">
         <div className="left w-1/2 flex flex-col gap-2 md:gap-5">
           {items.map((item, index) => (
             <motion.div
