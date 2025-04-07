@@ -61,7 +61,7 @@ const page = () => {
   ];
   let finish = ["dark", "medium", "light", "natural"];
   return (
-    <div className="flex flex-col gap-y-1 md:gap-y-5 xl:gap-y-14">
+    <section className="flex flex-col gap-y-1 md:gap-y-5 xl:gap-y-14">
       <Breadcrumb text={"Products"} />
       <Container className="flex gap-x-7 overflow-hidden">
         {/* Filter Section */}
@@ -207,7 +207,7 @@ const page = () => {
           </div>
         </div>
       </Container>
-    </div>
+    </section>
   );
 };
 

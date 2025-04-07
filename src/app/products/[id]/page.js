@@ -16,6 +16,7 @@ import { IoMail } from "react-icons/io5";
 import img from "../../../../public/productDetail.png";
 import ProductCard from "@/components/layer/ProductCard";
 import Slider from "react-slick";
+import Link from "next/link";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -228,12 +229,18 @@ const page = () => {
                   </button>
                 </div>
               </div>
-              <div className="add to cart btn">
-                <button className="text-white bg-primary py-2 md:py-3 px-3.5 md:px-5 font-semibold hover:bg-primary/80 hover:scale-125 duration-300">
+              <div className="addToCart btn flex gap-x-7">
+                <Link
+                  href="/checkout"
+                  className="text-white bg-primary py-2 md:py-3 px-3.5 md:px-5 font-semibold hover:bg-primary/80 hover:scale-125 duration-300"
+                >
+                  Buy now
+                </Link>
+                <Link href="/cart" className=" bg-secondary py-2 md:py-3 px-3.5 md:px-5 font-semibold hover:bg-secondary/80 hover:scale-125 duration-300">
                   Add to cart
-                </button>
+                </Link>
               </div>
-              <div className="more features text-gray-500 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-y-2 xl:gap-x-8 ">
+              {/* <div className="more features text-gray-500 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-y-2 xl:gap-x-8 ">
                 <a className="addToWishlist cursor-pointer  flex items-center gap-x-2 font-semibold hover:scale-110 duration-300">
                   <FaRegHeart />
                   <p>Add to wishlist</p>
@@ -246,7 +253,7 @@ const page = () => {
                   <IoMail />
                   <p>Email</p>
                 </a>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="accordions">
