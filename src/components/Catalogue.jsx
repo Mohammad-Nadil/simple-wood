@@ -11,6 +11,7 @@ import bed from "../../public/bed.png";
 import lamp from "../../public/lamp.png";
 import drawer from "../../public/drawer.png";
 import shelving from "../../public/shelving.png";
+import Link from "next/link";
 
 const Catalogue = () => {
   let items = [
@@ -37,21 +38,23 @@ const Catalogue = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.2 }}
               viewport={{ once: true }}
-              className="w-full flex flex-col gap-3 group"
+              className=" group"
             >
-              <div className="img md:px-6 xl:px-28 py-3 md:py-8 xl:py-16 border border-gray-300 group-hover:border-primary duration-300 overflow-hidden">
-                <Image
-                  src={item.img}
-                  alt="Product img "
-                  className="group-hover:scale-125 duration-500"
-                />
-              </div>
-              <div className="title flex gap-2 md:text-xl items-center font-semibold">
-                <FaPlus className="text-primary rounded-full bg-primary/30 p-0.5" />
-                <p className="capitalize group-hover:text-primary duration-300">
-                  {item.title}
-                </p>
-              </div>
+              <Link href="/products" className="w-full flex flex-col gap-3">
+                <div className="img md:px-6 xl:px-28 py-3 md:py-8 xl:py-16 border border-gray-300 group-hover:border-primary duration-300 overflow-hidden">
+                  <Image
+                    src={item.img}
+                    alt="Product img "
+                    className="group-hover:scale-125 duration-500"
+                  />
+                </div>
+                <div className="title flex gap-2 md:text-xl items-center font-semibold">
+                  <FaPlus className="text-primary rounded-full bg-primary/30 p-0.5" />
+                  <p className="capitalize group-hover:text-primary duration-300">
+                    {item.title}
+                  </p>
+                </div>
+              </Link>
             </motion.div>
           ))}
         </div>
@@ -64,21 +67,23 @@ const Catalogue = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.2 }}
               viewport={{ once: true }}
-              className="w-full flex flex-col gap-3 group"
+              className=" group"
             >
-              <div className="img md:px-6 xl:px-28 py-2 md:py-4 xl:py-16 border border-gray-300 group-hover:border-primary duration-300 overflow-hidden">
-                <Image
-                  src={item.img}
-                  alt="Product img "
-                  className="group-hover:scale-125 duration-500"
-                />
-              </div>
-              <div className="title flex gap-2 md:text-xl items-center font-semibold">
-                <FaPlus className="text-primary rounded-full bg-primary/30 p-0.5" />
-                <p className="capitalize group-hover:text-primary duration-300">
-                  {item.title}
-                </p>
-              </div>
+              <Link href="/products" className="w-full flex flex-col gap-3">
+                <div className="img md:px-6 xl:px-28 py-2 md:py-4 xl:py-16 border border-gray-300 group-hover:border-primary duration-300 overflow-hidden">
+                  <Image
+                    src={item.img}
+                    alt="Product img "
+                    className="group-hover:scale-125 duration-500"
+                  />
+                </div>
+                <div className="title flex gap-2 md:text-xl items-center font-semibold">
+                  <FaPlus className="text-primary rounded-full bg-primary/30 p-0.5" />
+                  <p className="capitalize group-hover:text-primary duration-300">
+                    {item.title}
+                  </p>
+                </div>
+              </Link>
             </motion.div>
           ))}
         </div>
