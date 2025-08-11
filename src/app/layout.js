@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import MagicMouseCursor from "@/components/layer/MagicMouseCursor";
 
 export default function RootLayout({ children }) {
   return (
@@ -20,7 +21,8 @@ export default function RootLayout({ children }) {
           />
         </head>
         <Provider store={store}>
-          <body cz-shortcut-listen="true" className="flex flex-col">
+          <body cz-shortcut-listen="true" className="flex flex-col min-h-screen justify-between ">
+            {/* <MagicMouseCursor/> */}
             <Navbar />
             {children}
             <Footer />

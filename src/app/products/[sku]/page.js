@@ -2,24 +2,23 @@
 import Breadcrumb from "@/components/layer/Breadcrumb";
 import Container from "@/components/layer/Container";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   FaArrowLeft,
   FaArrowRight,
-  FaBars,
   FaMinus,
   FaPlus,
-  FaRegHeart,
   FaStar,
 } from "react-icons/fa6";
-import { IoMail } from "react-icons/io5";
-import img from "../../../../public/productDetail.png";
 import ProductCard from "@/components/layer/ProductCard";
 import Slider from "react-slick";
 import Link from "next/link";
+import { useParams } from "next/navigation";
+import { fetchProductsDetails } from "@/lib/fetchProductsDetails";
+import UiLoader from "@/components/layer/UILoader";
 
 function SampleNextArrow(props) {
-  const { className, style, onClick } = props;
+  const { className, onClick } = props;
   return (
     <div
       className={` bg-secondary absolute z-50 rounded-full   right-0 top-1/2 -translate-y-1/2 p-2 lg:text-2xl ${className}`}
@@ -31,7 +30,7 @@ function SampleNextArrow(props) {
 }
 
 function SamplePrevArrow(props) {
-  const { className, style, onClick } = props;
+  const { className, onClick } = props;
   return (
     <div
       className={` bg-secondary absolute z-50 rounded-full  left-0 top-1/2 -translate-y-1/2 p-2 lg:text-2xl ${className}`}
@@ -69,35 +68,22 @@ const Accordion = ({ title, children }) => {
 };
 
 const page = () => {
+  const { sku } = useParams();
+
+  let [product, setProduct] = useState(null);
   let [quantity, setQuantity] = useState(1);
   let [active, setActive] = useState(0);
 
-  let exampleData = {
-    id: "4775af1e-553e-40aa-a418-587e8417d3ad",
-    name: "Elegant Desk Lamp",
-    category: "lamp",
-    description:
-      "This elegant desk lamp features a modern design with a sleek metal finish, providing a stylish addition to any workspace or study. It offers adjustable brightness and a flexible neck for optimal lighting.",
-    wood_type: "walnut",
-    finish: "dark",
-    dimensions: {
-      depth: 5,
-      width: 10,
-      height: 15,
-    },
-    price: 89.99,
-    weight: 2.5,
-    image_path:
-      "https://wvxxlssoccbctxspmtyy.supabase.co/storage/v1/object/public/products/public/09ff3d60-6fe9-4d74-a2c8-6973af33ab4f.jpeg",
-    stock: 1000,
-    sku: "50114a20-c6e8-4276-b875-0e0132e546ab",
-    status: "active",
-    created_at: "2024-11-10T15:00:43.110899+00:00",
-    updated_at: "2025-01-28T08:00:00.506818+00:00",
-    featured: true,
-    discount_price: 87,
-    tags: null,
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      if (sku) {
+        const response = await fetchProductsDetails(sku);
+        setProduct(response);
+      }
+    };
+    fetchData();
+  }, [sku]);
+  console.log(product);
 
   let settings = {
     dots: true,
@@ -113,7 +99,7 @@ const page = () => {
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
     appendDots: (dots) => (
-      <div className="w-full flex items-center justify-center">
+      <div className="w-full flex items-center justify-center ">
         <ul
           className="w-full flex items-center gap-x-2 justify-center"
           style={{ margin: "0px" }}
@@ -125,7 +111,7 @@ const page = () => {
     ),
     customPaging: (i) => (
       <div
-        className={`bg-primary text-transparent w-3 h-3 rounded-full ${
+        className={`bg-primary text-transparent my-3 w-3 h-3 rounded-full ${
           active === i ? "bg-primary" : "bg-primary/30"
         }`}
       >
@@ -136,48 +122,51 @@ const page = () => {
       setActive(b);
     },
   };
-
+  if (!product) {
+    return (
+      <div className=" ">
+        <Breadcrumb text="Product details" />
+        <div className="h-full ">
+          <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            <UiLoader />
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div>
       <Breadcrumb text="Product details" />
       <Container className=" py-5 2xl:py-20">
         <div className="main px-1.5 lg:px-0">
           <div className="top flex flex-col lg:flex-row gap-x-8 gap-y-12 items-center py-5 lg:py-10 xl:py-12 2xl:py-16">
-            <div className="images w-full lg:w-7/12 xl:w-3/5 aspect-video border border-secondary p-2 xl:p-8 slider-container relative">
+            <div className="images w-full lg:w-7/12 xl:w-3/5 aspect-video   xl:p-8 slider-container relative ">
               <Slider {...settings}>
-                <Image
-                  className="w-full h-full object-contain"
-                  width={""}
-                  height={""}
-                  src={img}
+                <img
+                  className="w-full h-full object-contain sm:aspect-video"
+                  src={product.image_path}
                   alt="product image"
                 />
-                <Image
-                  className="w-full h-full object-contain scale-x-[-1]  "
-                  width={""}
-                  height={""}
-                  src={img}
+                <img
+                  className="w-full h-full object-contain sm:aspect-video scale-x-[-1]  "
+                  src={product.image_path}
                   alt="product image"
                 />
-                <Image
-                  className="w-full h-full object-contain"
-                  width={""}
-                  height={""}
-                  src={img}
+                <img
+                  className="w-full h-full object-contain sm:aspect-video"
+                  src={product.image_path}
                   alt="product image"
                 />
-                <Image
-                  className="w-full h-full object-contain scale-x-[-1] "
-                  width={""}
-                  height={""}
-                  src={img}
+                <img
+                  className="w-full h-full object-contain sm:aspect-video scale-x-[-1] "
+                  src={product.image_path}
                   alt="product image"
                 />
               </Slider>
             </div>
             <div className="info w-full lg:w-5/12 xl:w-2/5 flex flex-col gap-3 xl:gap-5 ">
               <h1 className=" text-3xl sm:text-4xl font-light">
-                {exampleData.name}
+                {product.name}
               </h1>
               <div className=" rating flex justify-between items-center">
                 <div className="reviewIcon flex sm:gap-x-1 text-amber-300">
@@ -193,19 +182,19 @@ const page = () => {
                 <div>
                   <p>As low as</p>
                   <p className=" text-3xl sm:text-4xl font-medium">
-                    ${exampleData.price}
+                    ${product.price}
                   </p>
                 </div>
                 <div>
                   <div className="flex items-center gap-x-2 font-bold text-sm">
-                    {exampleData.stock > 0 ? (
+                    {product.stock > 0 ? (
                       <div className="w-2 h-2 rounded-full bg-green-600"></div>
                     ) : (
                       <div className="w-2 h-2 rounded-full bg-red-600"></div>
                     )}
-                    <p>{exampleData.stock > 0 ? "In stock" : "Out of stock"}</p>
+                    <p>{product.stock > 0 ? "In stock" : "Out of stock"}</p>
                   </div>
-                  <p>sku: 24-MB05</p>
+                  {/* <p>sku: {product.sku}</p> */}
                 </div>
               </div>
               <div className="w-full h-[1px] bg-gray-300"></div>
@@ -236,7 +225,10 @@ const page = () => {
                 >
                   Buy now
                 </Link>
-                <Link href="/cart" className=" bg-secondary py-2 md:py-3 px-3.5 md:px-5 font-semibold hover:bg-secondary/80 hover:scale-125 duration-300">
+                <Link
+                  href="/cart"
+                  className=" bg-secondary py-2 md:py-3 px-3.5 md:px-5 font-semibold hover:bg-secondary/80 hover:scale-125 duration-300"
+                >
                   Add to cart
                 </Link>
               </div>
@@ -257,10 +249,10 @@ const page = () => {
             </div>
           </div>
           <div className="accordions">
-            <Accordion title="Description" children={exampleData.description} />
+            <Accordion title="Description" children={product.description} />
             <Accordion
               title="Product Dimensions"
-              children={`Depth: ${exampleData.dimensions.depth} inches, Width: ${exampleData.dimensions.width} inches, Height: ${exampleData.dimensions.height} inches.`}
+              children={`Depth: ${product.dimensions.depth} inches, Width: ${product.dimensions.width} inches, Height: ${product.dimensions.height} inches.`}
             />
             <Accordion
               title="Care instructions"
@@ -268,7 +260,7 @@ const page = () => {
             />
             <Accordion
               title="Quality and information"
-              children={`Made from high-quality ${exampleData.wood_type} wood with a ${exampleData.finish} finish. Designed for durability and long-lasting use.`}
+              children={`Made from high-quality ${product.wood_type} wood with a ${product.finish} finish. Designed for durability and long-lasting use.`}
             />
             <Accordion
               title="Packing Information"
@@ -280,7 +272,7 @@ const page = () => {
             />
             <Accordion
               title="Product Availability"
-              children={`Currently ${exampleData.stock} units in stock. Available for immediate shipping.`}
+              children={`Currently ${product.stock} units in stock. Available for immediate shipping.`}
             />
           </div>
         </div>

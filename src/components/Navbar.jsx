@@ -8,7 +8,7 @@ import Image from "next/image";
 import whiteLogo from "../../public/whiteLogo.png";
 import Link from "next/link";
 
-const Navbar = () => {
+const Navbar = ({bg}) => {
   return (
     <motion.nav
       initial={{ opacity: 0, y: -50 }}
@@ -17,7 +17,7 @@ const Navbar = () => {
       className="absolute top-0 left-0 right-0 w-full"
     >
       <Container>
-        <div className="main flex justify-between items-center w-full py-0 ">
+        <div className={`main flex justify-between items-center w-full py-0 ${bg}`}>
           <motion.div
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -25,7 +25,7 @@ const Navbar = () => {
           >
             <FaBarsStaggered />
           </motion.div>
-          <div className="logo">
+          <div className="logo magic-hover">
             <Link href="/">
               <motion.div
                 initial={{ opacity: 0 }}
