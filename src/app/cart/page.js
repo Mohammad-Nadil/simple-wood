@@ -104,7 +104,9 @@ const page = () => {
               <p>Subtotal: $45.00</p>
               <p>tax: $5.00</p>
             </div>
-            <p className="font-semibold text-lg">Total: $45.00 + Delivery</p>
+            <div> <p className="font-semibold text-lg">Discount: $5.00</p>
+            <p className="font-semibold text-lg">Total: $45.00 + Delivery</p></div>
+           
             <Link href="/checkout" >
               <button className="bg-green-500 text-white w-full py-2 hover:bg-primary hover:scale-110 duration-300">
                 Proceed to Checkout

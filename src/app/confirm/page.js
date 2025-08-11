@@ -104,16 +104,6 @@ const page = () => {
               <strong>Delivery Method:</strong> {deliveryData.deliveryMethod}
             </p>
           </div>
-          <div className="couponCode flex  gap-2 md:gap-5 text-sm sm:text-base text-nowrap">
-            <input
-              type="text"
-              placeholder="Discount Code"
-              className="border p-1 md:p-2 w-2/3 md:w-1/3 outline-none"
-            />
-            <button className="bg-black text-white px-3 md:px-4 py-1 sm:py-2 hover:bg-gray-800 hover:scale-110 duration-300 ">
-              Apply Discount
-            </button>
-          </div>
           <div className="flex justify-between pt-4">
             <Link
               href="/checkout"
@@ -156,6 +146,9 @@ const page = () => {
                 <span>Delivery:</span>{" "}
                 <span>${billingData.deliveryCharge}</span>
               </p>
+              <p className="flex justify-between ">
+                <span>Discount:</span> <span>$0</span>
+              </p>
               <p className="flex justify-between font-semibold text-base mt-2">
                 <span>Total:</span> <span>${billingData.total}</span>
               </p>
@@ -165,7 +158,10 @@ const page = () => {
       </Container>
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div ref={modalRef} className="bg-white rounded-xl p-6 w-[90%] max-w-sm shadow-lg text-center space-y-4">
+          <div
+            ref={modalRef}
+            className="bg-white rounded-xl p-6 w-[90%] max-w-sm shadow-lg text-center space-y-4"
+          >
             <h2 className="text-xl font-semibold text-green-600">
               Order Placed!
             </h2>
@@ -173,12 +169,14 @@ const page = () => {
               Thank you for your order. You'll receive a confirmation email
               shortly.
             </p>
-            <button
+
+            <Link
+              href="/"
               onClick={closeModal}
               className="mt-4 bg-primary text-white px-4 py-2 rounded hover:bg-primary/80 transition"
             >
               Close
-            </button>
+            </Link>
           </div>
         </div>
       )}

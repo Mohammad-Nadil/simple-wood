@@ -98,15 +98,19 @@ const page = () => {
             <p>Subtotal: $45.00</p>
             <p>tax: $5.00</p>
           </div>
-          <p className="font-semibold text-lg">Total: $50.00 </p>
+          <di>
+            <p className="font-semibold text-lg">Discount: $5.00</p>
+            <p className="font-semibold text-lg">Total: $50.00 </p>
+          </di>
           <div className="flex justify-between">
-            <button
+            <Link
               type="button"
-              onClick={() => window.history.back()}
+              href="/cart"
+              // onClick={() => window.history.back()}
               className="  py-3 px-5 border hover:border-primary border-transparent hover:scale-110 duration-300"
             >
               Back
-            </button>
+            </Link>
             <Link
               href="/confirm"
               className="bg-green-500 text-white  py-3 px-5 hover:bg-primary hover:scale-110 duration-300"
@@ -121,8 +125,7 @@ const page = () => {
               Order Summary
             </h3>
             <p className="text-gray-500 text-xs md:text-sm">
-              {" "}
-              3 items in your cart{" "}
+              3 items in your cart
             </p>
             <div className="flex flex-col gap-y-1">
               <Card />
