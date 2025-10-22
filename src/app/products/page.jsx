@@ -6,7 +6,12 @@ import UiLoader from "@/components/layer/UILoader";
 import api from "@/lib/api";
 import React, { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
+import {
+  FaAngleDown,
+  FaAngleLeft,
+  FaAngleRight,
+  FaAngleUp,
+} from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
 
 const page = () => {
@@ -16,11 +21,15 @@ const page = () => {
   const [woodTypeFilter, setWoodTypeFilter] = useState(true);
   const [finishFilter, setFinishFilter] = useState(true);
   const [filter, setFilter] = useState(false);
+  const [page, setPage] = useState(1);
+  const [limit , setLimit] = useState(9);
+  const limitOption = [6, 9, 12, 15, 18, 21, 24, 27, 30];
   const [selectedFilter, setSelectedFilter] = useState({
     category: null,
     price: null,
     finish: null,
     sort: null,
+    offset: 0,
   });
   const filterRef = useRef(null);
 
@@ -78,6 +87,9 @@ const page = () => {
           params.sort = selectedFilter.sort;
         }
 
+        params.limit = limit;
+        params.offset = (page - 1) * limit;
+
         const res = await api.get(`/products`, { params });
         setProducts(res.data.data);
       } catch (error) {
@@ -89,7 +101,7 @@ const page = () => {
     };
 
     fetchData();
-  }, [selectedFilter]);
+  }, [selectedFilter, page , limit]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -236,7 +248,7 @@ const page = () => {
             </ul>
           </div>
         </div>
-        <div className=" products !w-full sm:!w-3/4 flex flex-col gap-y-5 py-3 md:py-0">
+        <div className=" products !w-full sm:!w-3/4 flex flex-col gap-y-5 py-3 ">
           <div className="sort  flex items-center justify-between gap-x-3 text-gray-700 text-sm md:text-base">
             <button
               className="cursor-pointer py-1.5 px-2 border border-gray-300 text-xl sm:invisible rounded"
@@ -244,23 +256,42 @@ const page = () => {
             >
               Filter
             </button>
-            <div className="flex gap-x-3 items-center">
-              <p className="font-medium">Sort by:</p>
-              <select
-                onChange={(e) =>
-                  setSelectedFilter((prev) => ({
-                    ...prev,
-                    sort: e.target.value,
-                  }))
-                }
-                className="border border-gray-300 rounded-md px-1.5 sm:px-3 py-1.5 text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary transition"
-              >
-                {sort.map((item, index) => (
-                  <option key={index} value={item.value}>
-                    {item.label}
-                  </option>
-                ))}
-              </select>
+            <div className="flex flex-col md:flex-row items-center gap-x-3 sm:gap-x-5" >
+              <div className="flex gap-x-3 items-center">
+                <p className="font-medium">Sort by:</p>
+                <select
+                  onChange={(e) =>
+                    setSelectedFilter((prev) => ({
+                      ...prev,
+                      sort: e.target.value,
+                    }))
+                  }
+                  className="border border-gray-300 rounded-md px-1.5 sm:px-3 py-1.5 text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary transition"
+                >
+                  {sort.map((item, index) => (
+                    <option key={index} value={item.value}>
+                      {item.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className=" hidden md:flex items-center gap-x-2 ">
+                <p className="font-medium">Show:</p>
+                <select
+                  value={limit}
+                  onChange={(e) => {
+                    setLimit(Number(e.target.value));
+                    setPage(1); // reset to first page when limit changes
+                  }}
+                  className="border border-gray-300 rounded-md px-2 py-1 text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                  {limitOption.map((item) => (
+                    <option key={item} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
           </div>
 
@@ -269,17 +300,47 @@ const page = () => {
               <UiLoader />
             </div>
           ) : (
-            <div className="main w-full grid grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-5 md:gap-x-5 md:gap-y-7 xl:gap-x-8">
-              {products.map((item) => (
-                <ProductCard
-                  name={item.name}
-                  image={item.image_path}
-                  price={item.price}
-                  key={item.id}
-                  sku={item.sku}
-                />
-              ))}
-            </div>
+            <>
+              <div className="main w-full grid grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-5 md:gap-x-5 md:gap-y-7 xl:gap-x-8">
+                {products.map((item) => (
+                  <ProductCard
+                    name={item.name}
+                    image={item.image_path}
+                    price={item.price}
+                    key={item.id}
+                    sku={item.sku}
+                  />
+                ))}
+              </div>{" "}
+              <div className="flex justify-center items-center gap-3 flex-wrap">
+                {/* Previous Button */}
+                <button
+                  onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                  disabled={page === 1}
+                  className={`flex items-center gap-1 px-4 py-2 rounded-md border duration-300 
+      ${
+        page === 1
+          ? "border-gray-300 text-gray-400 cursor-not-allowed bg-gray-100"
+          : "border-gray-300 text-gray-700 hover:bg-primary hover:text-white"
+      }`}
+                >
+                  <FaAngleLeft /> Previous
+                </button>
+
+                {/* Current Page */}
+                <span className="px-4 py-2 rounded-md border border-primary  font-medium">
+                  {page}
+                </span>
+
+                {/* Next Button */}
+                <button
+                  onClick={() => setPage((prev) => prev + 1)}
+                  className="flex items-center gap-1 px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-primary hover:text-white duration-300"
+                >
+                  Next <FaAngleRight />
+                </button>
+              </div>
+            </>
           )}
         </div>
       </Container>
