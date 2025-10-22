@@ -5,7 +5,7 @@ import DiscountForm from "@/components/layer/DiscountForm";
 export default function Home() {
   return (
     <div>
-      <CanvasCursor />
+      {/* <CanvasCursor /> */}
       <Banner />
       <Catalogue />
       <DiscountForm />
