@@ -22,7 +22,7 @@ const page = () => {
   const [finishFilter, setFinishFilter] = useState(true);
   const [filter, setFilter] = useState(false);
   const [page, setPage] = useState(1);
-  const [limit , setLimit] = useState(9);
+  const [limit, setLimit] = useState(9);
   const limitOption = [6, 9, 12, 15, 18, 21, 24, 27, 30];
   const [selectedFilter, setSelectedFilter] = useState({
     category: null,
@@ -101,7 +101,7 @@ const page = () => {
     };
 
     fetchData();
-  }, [selectedFilter, page , limit]);
+  }, [selectedFilter, page, limit]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -256,7 +256,7 @@ const page = () => {
             >
               Filter
             </button>
-            <div className="flex flex-col md:flex-row items-center gap-x-3 sm:gap-x-5" >
+            <div className="flex flex-col md:flex-row items-center gap-x-3 sm:gap-x-5">
               <div className="flex gap-x-3 items-center">
                 <p className="font-medium">Sort by:</p>
                 <select

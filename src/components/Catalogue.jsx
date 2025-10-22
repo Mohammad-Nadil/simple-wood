@@ -52,8 +52,7 @@ const Catalogue = () => {
               viewport={{ once: true }}
               className=" group"
             >
-              {/*href={`/products/category/${item.title}`}*/}
-              <Link href={`/products`} className="w-full flex flex-col gap-3">
+          <Link href={`/products?category=${item.title}`} className="w-full flex flex-col gap-3">
                 <div className="img md:px-6 xl:px-28 py-3 md:py-8 xl:py-16 border border-gray-300 group-hover:border-primary duration-300 overflow-hidden">
                   <Image
                     src={item.img}
