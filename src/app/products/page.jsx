@@ -31,6 +31,7 @@ const page = () => {
 
   const [selectedFilter, setSelectedFilter] = useState({
     category: categoryFromUrl || null,
+    wood_type: null,
     price: null,
     finish: null,
     sort: null,
@@ -81,6 +82,9 @@ const page = () => {
 
         if (selectedFilter.category) {
           params.category = selectedFilter.category;
+        }
+        if (selectedFilter.wood_type) {
+          params.wood_type = selectedFilter.wood_type;
         }
         if (selectedFilter.price) {
           params.price = selectedFilter.price;
@@ -209,7 +213,7 @@ const page = () => {
                     name="woodType"
                     id={`wood-${index}`}
                     onChange={() =>
-                      setSelectedFilter((prev) => ({ ...prev, wood: wood }))
+                      setSelectedFilter((prev) => ({ ...prev, wood_type: wood }))
                     }
                   />
                   <label
