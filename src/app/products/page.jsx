@@ -26,8 +26,9 @@ const page = () => {
   const [limit, setLimit] = useState(9);
   const limitOption = [6, 9, 12, 15, 18, 21, 24, 27, 30];
 
-  const searchParams = useSearchParams();
-  const categoryFromUrl = searchParams.get("category");
+  const [categoryFromUrl, setCategoryFromUrl] = useState(null);
+  // const searchParams = useSearchParams();
+  // const categoryFromUrl = searchParams.get("category");
 
   const [selectedFilter, setSelectedFilter] = useState({
     category: categoryFromUrl || null,
@@ -128,11 +129,19 @@ const page = () => {
     };
   }, [filter]);
 
-  useEffect(() => {
-    if (categoryFromUrl) {
-      setSelectedFilter((prev) => ({ ...prev, category: categoryFromUrl }));
-    }
-  }, [categoryFromUrl]);
+
+useEffect(() => {
+  if (typeof window !== "undefined") {
+    const params = new URLSearchParams(window.location.search);
+    setCategoryFromUrl(params.get("category"));
+  }
+}, []);
+
+useEffect(() => {
+  if (categoryFromUrl) {
+    setSelectedFilter((prev) => ({ ...prev, category: categoryFromUrl }));
+  }
+}, [categoryFromUrl]);
   return (
     <section className="flex flex-col gap-y-1 md:gap-y-5 xl:gap-y-14">
       <Toaster position="top-center" />
@@ -213,7 +222,10 @@ const page = () => {
                     name="woodType"
                     id={`wood-${index}`}
                     onChange={() =>
-                      setSelectedFilter((prev) => ({ ...prev, wood_type: wood }))
+                      setSelectedFilter((prev) => ({
+                        ...prev,
+                        wood_type: wood,
+                      }))
                     }
                   />
                   <label
