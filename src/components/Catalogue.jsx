@@ -14,17 +14,29 @@ import shelving from "../../public/shelving.png";
 import Link from "next/link";
 
 const Catalogue = () => {
-  let items = [
-    { title: "cupboard", img: cupboard },
-    { title: "bed & mattress", img: bed },
-    { title: "drawer", img: drawer },
-    { title: "shelving", img: shelving },
+  let category = [
+    "chair",
+    "stool",
+    "desk",
+    "kitchen",
+    "vanitory",
+    "mirror",
+    "wardrove",
+    "tv table",
+    "garden",
   ];
-  let items2 = [
+
+  let items = [
+    { title: "mattress", img: bed },
     { title: "sofa", img: sofa },
     { title: "table", img: table },
-    { title: "Floor lamps & fixtures", img: lamp },
-    { title: "shelving", img: shelving },
+    { title: "lamp", img: lamp },
+  ];
+  let items2 = [
+    // { title: "shelving", img: shelving },
+    // { title: "cupboard", img: cupboard },
+    // { title: "drawer", img: drawer },
+    // { title: "shelving", img: shelving },
   ];
 
   return (
@@ -40,7 +52,8 @@ const Catalogue = () => {
               viewport={{ once: true }}
               className=" group"
             >
-              <Link href="/products" className="w-full flex flex-col gap-3">
+              {/*href={`/products/category/${item.title}`}*/}
+              <Link href={`/products`} className="w-full flex flex-col gap-3">
                 <div className="img md:px-6 xl:px-28 py-3 md:py-8 xl:py-16 border border-gray-300 group-hover:border-primary duration-300 overflow-hidden">
                   <Image
                     src={item.img}
