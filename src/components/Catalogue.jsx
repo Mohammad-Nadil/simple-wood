@@ -19,24 +19,21 @@ const Catalogue = () => {
     "stool",
     "desk",
     "kitchen",
-    "vanitory",
-    "mirror",
-    "wardrove",
-    "tv table",
+    "mirror",,
     "garden",
   ];
 
   let items = [
-    { title: "mattress", img: bed },
-    { title: "sofa", img: sofa },
+    { title: "matress", img: bed },
+    { title: "vanitory", img: shelving },
     { title: "table", img: table },
-    { title: "lamp", img: lamp },
+    { title: "kitchen", img: shelving },
   ];
   let items2 = [
-    // { title: "shelving", img: shelving },
-    // { title: "cupboard", img: cupboard },
-    // { title: "drawer", img: drawer },
-    // { title: "shelving", img: shelving },
+    { title: "wardrove", img: cupboard },
+    { title: "sofa", img: sofa },
+    { title: "tv table", img: drawer },
+    { title: "lamp", img: lamp },
   ];
 
   return (
@@ -81,12 +78,12 @@ const Catalogue = () => {
               viewport={{ once: true }}
               className=" group"
             >
-              <Link href="/products" className="w-full flex flex-col gap-3">
-                <div className="img md:px-6 xl:px-28 py-2 md:py-4 xl:py-16 border border-gray-300 group-hover:border-primary duration-300 overflow-hidden">
+              <Link href={`/products?category=${item.title}`} className="w-full flex flex-col gap-3">
+                <div className="img md:px-6 xl:px-28 py-2 md:py-4 xl:py-16 border border-gray-300 group-hover:border-primary duration-300 overflow-hidden object-center" >
                   <Image
                     src={item.img}
                     alt="Product img "
-                    className="group-hover:scale-125 duration-500"
+                    className="group-hover:scale-125  duration-500"
                   />
                 </div>
                 <div className="title flex gap-2 md:text-xl items-center font-semibold">

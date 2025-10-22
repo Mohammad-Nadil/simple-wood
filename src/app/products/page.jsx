@@ -4,6 +4,7 @@ import Container from "@/components/layer/Container";
 import ProductCard from "@/components/layer/ProductCard";
 import UiLoader from "@/components/layer/UILoader";
 import api from "@/lib/api";
+import { useSearchParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import {
@@ -24,8 +25,12 @@ const page = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(9);
   const limitOption = [6, 9, 12, 15, 18, 21, 24, 27, 30];
+
+  const searchParams = useSearchParams();
+  const categoryFromUrl = searchParams.get("category");
+
   const [selectedFilter, setSelectedFilter] = useState({
-    category: null,
+    category: categoryFromUrl || null,
     price: null,
     finish: null,
     sort: null,
@@ -118,6 +123,12 @@ const page = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [filter]);
+
+  useEffect(() => {
+    if (categoryFromUrl) {
+      setSelectedFilter((prev) => ({ ...prev, category: categoryFromUrl }));
+    }
+  }, [categoryFromUrl]);
   return (
     <section className="flex flex-col gap-y-1 md:gap-y-5 xl:gap-y-14">
       <Toaster position="top-center" />
