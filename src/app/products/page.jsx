@@ -1,42 +1,42 @@
 "use client";
+import React, { useEffect, useRef, useState } from "react";
+import ProductCard from "@/components/layer/ProductCard";
 import Breadcrumb from "@/components/layer/Breadcrumb";
 import Container from "@/components/layer/Container";
-import ProductCard from "@/components/layer/ProductCard";
 import UiLoader from "@/components/layer/UILoader";
-import api from "@/lib/api";
-import { useSearchParams } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { IoMdClose } from "react-icons/io";
+import api from "@/lib/api";
 import {
   FaAngleDown,
   FaAngleLeft,
   FaAngleRight,
   FaAngleUp,
 } from "react-icons/fa6";
-import { IoMdClose } from "react-icons/io";
 
 const page = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [categoryFromUrl, setCategoryFromUrl] = useState(null);
   const [categoryFilter, setCategoryFilter] = useState(true);
   const [woodTypeFilter, setWoodTypeFilter] = useState(true);
+  const [applyTrigger, setApplyTrigger] = useState(false);
   const [finishFilter, setFinishFilter] = useState(true);
+  const limitOption = [9, 12, 15, 18, 21, 24, 27, 30];
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState(false);
-  const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(9);
-  const limitOption = [6, 9, 12, 15, 18, 21, 24, 27, 30];
-
-  const [categoryFromUrl, setCategoryFromUrl] = useState(null);
-  // const searchParams = useSearchParams();
-  // const categoryFromUrl = searchParams.get("category");
+  const [page, setPage] = useState(1);
 
   const [selectedFilter, setSelectedFilter] = useState({
     category: categoryFromUrl || null,
     wood_type: null,
-    price: null,
     finish: null,
     sort: null,
     offset: 0,
+    // min_price: 0,
+    // max_price: 0,
+    // min_stock: 0,
+    // max_stock: 0,
   });
   const filterRef = useRef(null);
 
@@ -75,43 +75,83 @@ const page = () => {
     { value: "name_desc", label: "Name: Z → A" },
   ];
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const params = {};
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const params = {};
 
-        if (selectedFilter.category) {
-          params.category = selectedFilter.category;
-        }
-        if (selectedFilter.wood_type) {
-          params.wood_type = selectedFilter.wood_type;
-        }
-        if (selectedFilter.price) {
-          params.price = selectedFilter.price;
-        }
-        if (selectedFilter.finish) {
-          params.finish = selectedFilter.finish;
-        }
-        if (selectedFilter.sort) {
-          params.sort = selectedFilter.sort;
-        }
-
-        params.limit = limit;
-        params.offset = (page - 1) * limit;
-
-        const res = await api.get(`/products`, { params });
-        setProducts(res.data.data);
-      } catch (error) {
-        toast.error(error.message);
-        console.log(error);
-      } finally {
-        setLoading(false);
+      if (selectedFilter.category) {
+        params.category = selectedFilter.category;
       }
-    };
+      if (selectedFilter.wood_type) {
+        params.wood_type = selectedFilter.wood_type;
+      }
+      if (selectedFilter.finish) {
+        params.finish = selectedFilter.finish;
+      }
+      if (selectedFilter.sort) {
+        params.sort = selectedFilter.sort;
+      }
+      if (selectedFilter.min_price) {
+        params.min_price = selectedFilter.min_price;
+      }
+      if (selectedFilter.max_price) {
+        params.max_price = selectedFilter.max_price;
+      }
+      if (selectedFilter.min_stock) {
+        params.min_stock = selectedFilter.min_stock;
+      }
+      if (selectedFilter.max_stock) {
+        params.max_stock = selectedFilter.max_stock;
+      }
+
+      params.limit = limit;
+      params.offset = (page - 1) * limit;
+
+      const res = await api.get(`/products`, { params });
+      setProducts(res.data.data);
+    } catch (error) {
+      toast.error(error.message);
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleClearFilters = () => {
+    setSelectedFilter({
+      category: "",
+      wood_type: "",
+      finish: "",
+      price: "",
+      // min_price: "",
+      // max_price: "",
+      // min_stock: "",
+      // max_stock: "",
+    });
+
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.search = "";
+      window.history.replaceState({}, "", url);
+    }
+
+    const radios = document.querySelectorAll("input[type=radio]");
+    radios.forEach((radio) => (radio.checked = false));
 
     fetchData();
+  };
+
+  useEffect(() => {
+    fetchData();
   }, [selectedFilter, page, limit]);
+
+  useEffect(() => {
+    if (applyTrigger) {
+      fetchData();
+      setApplyTrigger(false);
+    }
+  }, [applyTrigger]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -129,19 +169,18 @@ const page = () => {
     };
   }, [filter]);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      setCategoryFromUrl(params.get("category"));
+    }
+  }, []);
 
-useEffect(() => {
-  if (typeof window !== "undefined") {
-    const params = new URLSearchParams(window.location.search);
-    setCategoryFromUrl(params.get("category"));
-  }
-}, []);
-
-useEffect(() => {
-  if (categoryFromUrl) {
-    setSelectedFilter((prev) => ({ ...prev, category: categoryFromUrl }));
-  }
-}, [categoryFromUrl]);
+  useEffect(() => {
+    if (categoryFromUrl) {
+      setSelectedFilter((prev) => ({ ...prev, category: categoryFromUrl }));
+    }
+  }, [categoryFromUrl]);
   return (
     <section className="flex flex-col gap-y-1 md:gap-y-5 xl:gap-y-14">
       <Toaster position="top-center" />
@@ -273,6 +312,72 @@ useEffect(() => {
                 </li>
               ))}
             </ul>
+          </div>
+
+          {/* Min Max Price Section */}
+          {/* <div>
+            <p className="font-medium text-gray-700 border-t border-b border-secondary py-2">
+              Price Range
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-1 xl:grid-cols-2 sm:gap-y-3 gap-x-2">
+              <input
+                type="number"
+                className="border  border-gray-300 rounded-md px-1.5 sm:px-3 py-1.5 text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary transition"
+                placeholder="Min"
+                onChange={(e) => {
+                  setFilter((prev) => ({
+                    ...prev,
+                    min_price: e.target.value,
+                  }));
+                }}
+              />
+              <input
+                type="number"
+                className="border  border-gray-300 rounded-md px-1.5 sm:px-3 py-1.5 text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary transition"
+                placeholder="Max"
+                onChange={(e) => {
+                  setFilter((prev) => ({
+                    ...prev,
+                    max_price: e.target.value,
+                  }));
+                }}
+              />
+            </div>
+          </div> */}
+
+          {/* Min Max Stock Section */}
+          {/* <div>
+            <p className="font-medium text-gray-700 border-t border-b border-secondary py-2">
+              Stock Range
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-1 xl:grid-cols-2 sm:gap-y-3 gap-x-2">
+              <input
+                type="number"
+                className="border  border-gray-300 rounded-md px-1.5 sm:px-3 py-1.5 text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary transition"
+                placeholder="Min"
+              />
+              <input
+                type="number"
+                className="border  border-gray-300 rounded-md px-1.5 sm:px-3 py-1.5 text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary transition"
+                placeholder="Max"
+              />
+            </div>
+          </div> */}
+
+          {/* Apply Filter Button */}
+          <div className=" grid  gap-x-3 mt-4">
+            {/* <button
+              className=" bg-primary text-white py-2 rounded-md hover:bg-primary/80 duration-300"
+              onClick={() => setApplyTrigger(true)}
+            >
+              Apply Filters
+            </button> */}
+            <button
+              className=" border border-gray-300 text-gray-700 py-2 rounded-md hover:bg-gray-100 duration-300"
+              onClick={() => handleClearFilters()}
+            >
+              Clear Filters
+            </button>
           </div>
         </div>
         <div className=" products !w-full sm:!w-3/4 flex flex-col gap-y-5 py-3 ">
