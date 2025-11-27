@@ -13,8 +13,10 @@ import {
   FaAngleRight,
   FaAngleUp,
 } from "react-icons/fa6";
+import { useSearchParams } from "next/navigation";
 
 const page = () => {
+  const searchParams = useSearchParams();
   const [categoryFromUrl, setCategoryFromUrl] = useState(null);
   const [categoryFilter, setCategoryFilter] = useState(true);
   const [woodTypeFilter, setWoodTypeFilter] = useState(true);
@@ -25,19 +27,20 @@ const page = () => {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState(false);
   const [limit, setLimit] = useState(9);
-  const [page, setPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const [selectedFilter, setSelectedFilter] = useState({
-    category: null,
-    wood_type: null,
-    finish: null,
-    sort: null,
+    category: searchParams?.get("category") || null,
+    wood_type: searchParams?.get("wood_type") || null,
+    finish: searchParams?.get("finish") || null,
+    sort: searchParams?.get("sort") || null,
     offset: 0,
     // min_price: 0,
     // max_price: 0,
     // min_stock: 0,
     // max_stock: 0,
   });
+
   const filterRef = useRef(null);
 
   let category = [
@@ -106,7 +109,7 @@ const page = () => {
       }
 
       params.limit = limit;
-      params.offset = (page - 1) * limit;
+      params.offset = (currentPage - 1) * limit;
 
       const res = await api.get(`/products`, { params });
       setProducts(res.data.data);
@@ -120,10 +123,10 @@ const page = () => {
 
   const handleClearFilters = () => {
     setSelectedFilter({
-      category: "",
-      wood_type: "",
-      finish: "",
-      price: "",
+      category: null,
+      wood_type: null,
+      finish: null,
+      price: null,
       // min_price: "",
       // max_price: "",
       // min_stock: "",
@@ -143,10 +146,8 @@ const page = () => {
   };
 
   useEffect(() => {
-    if (selectedFilter.category !== null || categoryFromUrl !== null) {
-      fetchData();
-    }
-  }, [selectedFilter, page, limit, categoryFromUrl]);
+    fetchData();
+  }, [selectedFilter, currentPage, limit]);
 
   useEffect(() => {
     if (applyTrigger) {
@@ -173,15 +174,15 @@ const page = () => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      setCategoryFromUrl(params.get("category"));
+      const url = new URL(window.location.href);
+      Object.entries(selectedFilter).forEach(([key, value]) => {
+        if (value) url.searchParams.set(key, value);
+        else url.searchParams.delete(key);
+      });
+      window.history.replaceState({}, "", url);
     }
-  }, []);
+  }, [selectedFilter]);
 
-  useEffect(() => {
-    if (!categoryFromUrl) return;
-    setSelectedFilter((prev) => ({ ...prev, category: categoryFromUrl }));
-  }, [categoryFromUrl]);
   return (
     <section className="flex flex-col gap-y-1 md:gap-y-5 xl:gap-y-14">
       <Toaster position="top-center" />
@@ -417,7 +418,7 @@ const page = () => {
                   value={limit}
                   onChange={(e) => {
                     setLimit(Number(e.target.value));
-                    setPage(1); // reset to first page when limit changes
+                    setCurrentPage(1); // reset to first page when limit changes
                   }}
                   className="border border-gray-300 rounded-md px-2 py-1 text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary"
                 >
@@ -451,11 +452,13 @@ const page = () => {
               <div className="flex justify-center items-center gap-3 flex-wrap">
                 {/* Previous Button */}
                 <button
-                  onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-                  disabled={page === 1}
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.max(prev - 1, 1))
+                  }
+                  disabled={currentPage === 1}
                   className={`flex items-center gap-1 px-4 py-2 rounded-md border duration-300 
       ${
-        page === 1
+        currentPage === 1
           ? "border-gray-300 text-gray-400 cursor-not-allowed bg-gray-100"
           : "border-gray-300 text-gray-700 hover:bg-primary hover:text-white"
       }`}
@@ -465,12 +468,12 @@ const page = () => {
 
                 {/* Current Page */}
                 <span className="px-4 py-2 rounded-md border border-primary  font-medium">
-                  {page}
+                  {currentPage}
                 </span>
 
                 {/* Next Button */}
                 <button
-                  onClick={() => setPage((prev) => prev + 1)}
+                  onClick={() => setCurrentPage((prev) => prev + 1)}
                   className="flex items-center gap-1 px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-primary hover:text-white duration-300"
                 >
                   Next <FaAngleRight />

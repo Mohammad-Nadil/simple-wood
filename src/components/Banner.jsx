@@ -55,7 +55,7 @@ const Banner = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
-      className="bg-[url('/bannerBg.png')] bg-cover bg-center py-14 pt-16 md:pt-32"
+      className="bg-[url('/bannerBg.png')] bg-cover bg-center py-14 pt-16 md:pt-32 "
     >
       <Container>
         <Slider {...settings}>
