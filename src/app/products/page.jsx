@@ -28,7 +28,7 @@ const page = () => {
   const [page, setPage] = useState(1);
 
   const [selectedFilter, setSelectedFilter] = useState({
-    category: categoryFromUrl || null,
+    category: null,
     wood_type: null,
     finish: null,
     sort: null,
@@ -143,8 +143,10 @@ const page = () => {
   };
 
   useEffect(() => {
-    fetchData();
-  }, [selectedFilter, page, limit]);
+    if (selectedFilter.category !== null || categoryFromUrl !== null) {
+      fetchData();
+    }
+  }, [selectedFilter, page, limit, categoryFromUrl]);
 
   useEffect(() => {
     if (applyTrigger) {
@@ -177,9 +179,8 @@ const page = () => {
   }, []);
 
   useEffect(() => {
-    if (categoryFromUrl) {
-      setSelectedFilter((prev) => ({ ...prev, category: categoryFromUrl }));
-    }
+    if (!categoryFromUrl) return;
+    setSelectedFilter((prev) => ({ ...prev, category: categoryFromUrl }));
   }, [categoryFromUrl]);
   return (
     <section className="flex flex-col gap-y-1 md:gap-y-5 xl:gap-y-14">
@@ -224,6 +225,7 @@ const page = () => {
                     id={`category-${index}`}
                     name="category"
                     className="accent-primary"
+                    checked={selectedFilter.category === cat}
                     onChange={() =>
                       setSelectedFilter((prev) => ({ ...prev, category: cat }))
                     }
@@ -260,6 +262,7 @@ const page = () => {
                     className="accent-primary"
                     name="woodType"
                     id={`wood-${index}`}
+                    checked={selectedFilter.wood_type === wood}
                     onChange={() =>
                       setSelectedFilter((prev) => ({
                         ...prev,
@@ -299,6 +302,7 @@ const page = () => {
                     className="accent-primary"
                     name="finish"
                     id={`finish-${index}`}
+                    checked={selectedFilter.finish === fin}
                     onChange={() =>
                       setSelectedFilter((prev) => ({ ...prev, finish: fin }))
                     }
