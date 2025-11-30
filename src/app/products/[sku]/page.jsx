@@ -6,8 +6,10 @@ import { useEffect, useState } from "react";
 import {
   FaArrowLeft,
   FaArrowRight,
+  FaBars,
   FaMinus,
   FaPlus,
+  FaRegHeart,
   FaStar,
 } from "react-icons/fa6";
 import ProductCard from "@/components/layer/ProductCard";
@@ -16,6 +18,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { fetchProductsDetails } from "@/lib/fetchProductsDetails";
 import UiLoader from "@/components/layer/UILoader";
+import { IoMail } from "react-icons/io5";
 
 function SampleNextArrow(props) {
   const { className, onClick } = props;
@@ -276,7 +279,7 @@ const page = () => {
             />
           </div>
         </div>
-        <div className="related products pt-14 flex flex-col gap-7 px-1.5 lg:px-0">
+        {/* <div className="related products pt-14 flex flex-col gap-7 px-1.5 lg:px-0">
           <h1 className="font-light text-3xl sm:text-4xl text-center">
             Related Products
           </h1>
@@ -286,7 +289,7 @@ const page = () => {
             <ProductCard />
             <ProductCard />
           </div>
-        </div>
+        </div> */}
       </Container>
     </div>
   );
