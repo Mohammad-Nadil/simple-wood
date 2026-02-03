@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { ReactLenis } from "@/components/layer/SmoothScroll";
+import LenisProvider, { ReactLenis } from "@/components/layer/LenisProvider";
 import MagicMouseCursor from "@/components/layer/MagicMouseCursor";
 
 export default function RootLayout({ children }) {
@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
           />
         </head>
         <Provider store={store}>
-          <ReactLenis root options={{ smooth: true, lerp: 0.08 }}>
+          <LenisProvider>
             <body
               cz-shortcut-listen="true"
               className="flex flex-col min-h-screen justify-between "
@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
               {children}
               <Footer />
             </body>
-          </ReactLenis>
+          </LenisProvider>
         </Provider>
       </html>
     </>
