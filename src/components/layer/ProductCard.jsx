@@ -6,11 +6,11 @@ const ProductCard = ( { image, name, price , sku }) => {
   return (
     <Link className="group " href={`/products/${sku}`}>
     <div className=" flex flex-col  ">
-      <div className="img  overflow-hidden border-secondary border-2  duration-300">
+      <div className="img  overflow-hidden border-secondary border-2 rounded-lg duration-300 p-1 md:p-4">
         <img
           src={image}
           alt="image"
-          className="w-full aspect-[213/262]  group-hover:scale-110 duration-300"
+          className="w-full aspect-square object-contain group-hover:scale-110 duration-300 "
         />
       </div>
       <div className="info flex flex-col py-1 ">

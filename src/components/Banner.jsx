@@ -13,12 +13,38 @@ import {
 import img1 from "../../public/banner1.png";
 import img2 from "../../public/banner2.png";
 import img3 from "../../public/banner3.png";
+import furniture from "../../public/furniture.webp";
+import homeDecoration from "../../public/home-decorations.webp";
+import groceries from "../../public/groceries.webp";
+import laptops from "../../public/laptops.webp";
+import smartphones from "../../public/smartphones.webp";
+import fragrances from "../../public/fragrances.webp";
+import skincare from "../../public/skincare.jpg";
+import mensShirts from "../../public/mens-shirts.webp";
+import tops from "../../public/tops.webp";
+import womenDresses from "../../public/womens-dresses.webp";
 import Image from "next/image";
 import Link from "next/link";
 
 const Banner = () => {
   let [active, setActive] = useState(0);
-  let items = ["1st banner", "2nd banner", "3rd banner", "4th banner"];
+  let items = [
+    {
+      title: "",
+      subtitle: "",
+      img: [furniture, homeDecoration, img3],
+    },
+    {
+      title: "",
+      subtitle: "",
+      img: [laptops, smartphones , womenDresses],
+    },
+    {
+      title: "",
+      subtitle: "",
+      img: [mensShirts, tops, womenDresses],
+    },
+  ];
 
   let settings = {
     dots: true,

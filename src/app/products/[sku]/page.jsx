@@ -77,16 +77,17 @@ const page = () => {
   let [quantity, setQuantity] = useState(1);
   let [active, setActive] = useState(0);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (sku) {
-        const response = await fetchProductsDetails(sku);
-        setProduct(response);
-      }
-    };
-    fetchData();
-  }, [sku]);
-  console.log(product);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     if (sku) {
+  //       const response = await fetchProductsDetails(sku);
+  //       setProduct(response);
+  //     }
+  //   };
+  //   fetchData();
+  // }, [sku]);
+  // console.log(product);
+  
 
   let settings = {
     dots: true,

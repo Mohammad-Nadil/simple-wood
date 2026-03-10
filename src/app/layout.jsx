@@ -6,8 +6,15 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import LenisProvider, { ReactLenis } from "@/components/layer/LenisProvider";
 import MagicMouseCursor from "@/components/layer/MagicMouseCursor";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 export default function RootLayout({ children }) {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, [pathname]);
   return (
     <>
       <html lang="en">
