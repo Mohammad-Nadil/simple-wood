@@ -30,9 +30,7 @@ const DiscountForm = () => {
           viewport={{ once: true }}
           className="right sm:w-1/2 flex justify-end xl:justify-center"
         >
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.3 }}
+          <div
             className="lg:w-1/2 relative"
           >
             <input
@@ -42,14 +40,12 @@ const DiscountForm = () => {
               id="email"
               placeholder="Enter your email address"
             />
-            <motion.div
-              whileHover={{ x: 5 }}
-              transition={{ duration: 0.3 }}
+            <div
               className="icon absolute right-2 top-1/2 -translate-y-1/2 text-primary"
             >
               <FaArrowRight />
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </motion.div>
       </Container>
     </div>

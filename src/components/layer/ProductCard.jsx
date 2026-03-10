@@ -2,9 +2,9 @@ import Link from "next/link";
 import React from "react";
 import { FaStar } from "react-icons/fa6";
 
-const ProductCard = ( { image, name, price , sku }) => {
+const ProductCard = ( { image, name, price , id }) => {
   return (
-    <Link className="group " href={`/products/${sku}`}>
+    <Link className="group " href={`/products/${id}`}>
     <div className=" flex flex-col  ">
       <div className="img  overflow-hidden border-secondary border-2 rounded-lg duration-300 p-1 md:p-4">
         <img

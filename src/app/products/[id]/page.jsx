@@ -16,9 +16,9 @@ import ProductCard from "@/components/layer/ProductCard";
 import Slider from "react-slick";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { fetchProductsDetails } from "@/lib/fetchProductsDetails";
 import UiLoader from "@/components/layer/UILoader";
 import { IoMail } from "react-icons/io5";
+import api from "@/lib/api";
 
 function SampleNextArrow(props) {
   const { className, onClick } = props;
@@ -45,49 +45,49 @@ function SamplePrevArrow(props) {
 }
 
 const Accordion = ({ title, children }) => {
-  let [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+
   return (
-    <div className="main  ">
+    <div className="border-b border-gray-300">
       <div
         onClick={() => setOpen(!open)}
-        className={`title font-semibold flex items-center gap-x-5 text-lg  py-3 md:py-5 px-2 md:px-5 cursor-pointer border-secondary ${
-          open ? "bg-[#f0f0f0]" : " border-t border-b "
-        } `}
+        className="flex items-center gap-4 cursor-pointer py-4 px-3 font-semibold text-lg"
       >
-        <FaPlus
-          className={` duration-300 ${open ? "rotate-45" : "rotate-0"} `}
-        />
-        <p className=" text-lg lg:text-xl ">{title}</p>
+        <FaPlus className={`duration-300 ${open ? "rotate-45" : ""}`} />
+        <p>{title}</p>
       </div>
+
       <div
-        className={`content font-light text-sm lg:text-base transition-all  duration-500  px-12 ${
-          open ? "py-4 max-h-80" : " max-h-0 overflow-hidden"
-        } `}
+        className={`overflow-hidden transition-all duration-500 ${
+          open ? "max-h-40 py-3 px-10" : "max-h-0"
+        }`}
       >
-        <p>{children}</p>
+        <p className="text-gray-600 text-sm lg:text-base">{children}</p>
       </div>
     </div>
   );
 };
 
 const page = () => {
-  const { sku } = useParams();
+  const { id } = useParams();
 
   let [product, setProduct] = useState(null);
   let [quantity, setQuantity] = useState(1);
   let [active, setActive] = useState(0);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     if (sku) {
-  //       const response = await fetchProductsDetails(sku);
-  //       setProduct(response);
-  //     }
-  //   };
-  //   fetchData();
-  // }, [sku]);
-  // console.log(product);
-  
+  useEffect(() => {
+    const fetchData = async () => {
+      if (id) {
+        try {
+          const response = await api.get(`/products/${id}`);
+          setProduct(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+    fetchData();
+  }, [id]);
 
   let settings = {
     dots: true,
@@ -97,7 +97,7 @@ const page = () => {
     autoplay: true,
     autoplaySpeed: 3000,
     cssEase: "linear",
-    fade: true,
+    // fade: true,
     slidesToShow: 1,
     slidesToScroll: 1,
     nextArrow: <SampleNextArrow />,
@@ -143,44 +143,38 @@ const page = () => {
       <Breadcrumb text="Product details" />
       <Container className=" py-5 2xl:py-20">
         <div className="main px-1.5 lg:px-0">
-          <div className="top flex flex-col lg:flex-row gap-x-8 gap-y-12 items-center py-5 lg:py-10 xl:py-12 2xl:py-16">
+          <div className="top flex flex-col lg:flex-row gap-x-8 gap-y-12 items-center py-0 ">
             <div className="images w-full lg:w-7/12 xl:w-3/5 aspect-video   xl:p-8 slider-container relative ">
               <Slider {...settings}>
-                <img
-                  className="w-full h-full object-contain sm:aspect-video"
-                  src={product.image_path}
-                  alt="product image"
-                />
-                <img
-                  className="w-full h-full object-contain sm:aspect-video scale-x-[-1]  "
-                  src={product.image_path}
-                  alt="product image"
-                />
-                <img
-                  className="w-full h-full object-contain sm:aspect-video"
-                  src={product.image_path}
-                  alt="product image"
-                />
-                <img
-                  className="w-full h-full object-contain sm:aspect-video scale-x-[-1] "
-                  src={product.image_path}
-                  alt="product image"
-                />
+                {product.images.map((img, index) => (
+                  <img
+                    key={index}
+                    className="w-full  object-contain aspect-square lg:aspect-20/8 scale-x-[-1]  "
+                    src={img}
+                    fill
+                    alt="product image"
+                  />
+                ))}
               </Slider>
             </div>
             <div className="info w-full lg:w-5/12 xl:w-2/5 flex flex-col gap-3 xl:gap-5 ">
               <h1 className=" text-3xl sm:text-4xl font-light">
-                {product.name}
+                {product.title}
               </h1>
-              <div className=" rating flex justify-between items-center">
+              <div className=" rating flex  gap-4 items-center">
                 <div className="reviewIcon flex sm:gap-x-1 text-amber-300">
-                  <FaStar />
-                  <FaStar />
-                  <FaStar />
-                  <FaStar className="text-gray-500" />
-                  <FaStar className="text-gray-500" />
+                  {[...Array(5)].map((_, index) => (
+                    <FaStar
+                      key={index}
+                      className={
+                        index < Math.round(product.rating)
+                          ? "text-amber-300"
+                          : "text-gray-400"
+                      }
+                    />
+                  ))}
                 </div>
-                <p> (5) reviews</p>
+                <p> ({product.reviews.length}) reviews</p>
               </div>
               <div className=" price flex justify-between items-center">
                 <div>
@@ -225,13 +219,13 @@ const page = () => {
               <div className="addToCart btn flex gap-x-7">
                 <Link
                   href="/checkout"
-                  className="text-white bg-primary py-2 md:py-3 px-3.5 md:px-5 font-semibold hover:bg-primary/80 hover:scale-125 duration-300"
+                  className="text-white rounded-sm sm:rounded-md bg-primary py-2 md:py-3 px-3.5 md:px-5 font-semibold hover:bg-primary/80 hover:scale-105 duration-300"
                 >
                   Buy now
                 </Link>
                 <Link
                   href="/cart"
-                  className=" bg-secondary py-2 md:py-3 px-3.5 md:px-5 font-semibold hover:bg-secondary/80 hover:scale-125 duration-300"
+                  className=" bg-secondary rounded-sm sm:rounded-md py-2 md:py-3 px-3.5 md:px-5 font-semibold hover:bg-secondary/80 hover:scale-105 duration-300"
                 >
                   Add to cart
                 </Link>
@@ -252,32 +246,34 @@ const page = () => {
               </div> */}
             </div>
           </div>
-          <div className="accordions">
-            <Accordion title="Description" children={product.description} />
-            <Accordion
-              title="Product Dimensions"
-              children={`Depth: ${product.dimensions.depth} inches, Width: ${product.dimensions.width} inches, Height: ${product.dimensions.height} inches.`}
-            />
-            <Accordion
-              title="Care instructions"
-              children="Wipe clean with a dry or slightly damp cloth. Avoid using harsh chemicals or abrasive materials to prevent damage to the finish."
-            />
-            <Accordion
-              title="Quality and information"
-              children={`Made from high-quality ${product.wood_type} wood with a ${product.finish} finish. Designed for durability and long-lasting use.`}
-            />
-            <Accordion
-              title="Packing Information"
-              children="The product is securely packed in a recyclable cardboard box with protective foam layers to prevent damage during shipping."
-            />
-            <Accordion
-              title="Instructions and Documents"
-              children="Comes with an easy-to-follow assembly manual and warranty card. Additional documents can be downloaded from our website."
-            />
-            <Accordion
-              title="Product Availability"
-              children={`Currently ${product.stock} units in stock. Available for immediate shipping.`}
-            />
+          <div className="accordions mt-10">
+            <Accordion title="Description">{product.description}</Accordion>
+
+            <Accordion title="Product Dimensions">
+              Width: {product.dimensions.width} inches, Height:{" "}
+              {product.dimensions.height} inches, Depth:{" "}
+              {product.dimensions.depth} inches.
+            </Accordion>
+
+            <Accordion title="Product Information">
+              Brand: {product.brand} <br />
+              Category: {product.category} <br />
+              Weight: {product.weight} oz
+            </Accordion>
+
+            <Accordion title="Warranty Information">
+              {product.warrantyInformation}
+            </Accordion>
+
+            <Accordion title="Shipping Information">
+              {product.shippingInformation}
+            </Accordion>
+
+            <Accordion title="Return Policy">{product.returnPolicy}</Accordion>
+
+            <Accordion title="Availability">
+              {product.availabilityStatus} — {product.stock} items available
+            </Accordion>
           </div>
         </div>
         {/* <div className="related products pt-14 flex flex-col gap-7 px-1.5 lg:px-0">

@@ -13,6 +13,7 @@ import {
   FaAngleUp,
 } from "react-icons/fa6";
 import { useSearchParams } from "next/navigation";
+import api from "@/lib/api";
 
 const ProductClient = () => {
   const searchParams = useSearchParams();
@@ -75,12 +76,38 @@ const ProductClient = () => {
 
   // Open and close sections
   const [openSections, setOpenSections] = useState(
-    categoryGroups.reduce((acc, sec) => ({ ...acc, [sec.name]: true }), {}),
+    categoryGroups.reduce((acc, sec) => ({ ...acc, [sec.name]: false }), {}),
   );
 
-   const toggleSection = (sectionName) => {
-    setOpenSections((prev) => ({ ...prev, [sectionName]: !prev[sectionName] }));
+  // Toggle section
+  const toggleSection = (sectionName) => {
+    setOpenSections((prev) => {
+      const newState = {};
+      Object.keys(prev).forEach((key) => {
+        newState[key] = key === sectionName ? !prev[key] : false;
+      });
+      return newState;
+    });
   };
+
+  // Set active section
+  useEffect(() => {
+    if (selectedFilter.category) {
+      const activeGroup = categoryGroups.find((group) =>
+        group.categories.includes(selectedFilter.category),
+      );
+
+      if (activeGroup) {
+        setOpenSections((prev) => {
+          const newState = {};
+          Object.keys(prev).forEach((key) => {
+            newState[key] = key === activeGroup.name;
+          });
+          return newState;
+        });
+      }
+    }
+  }, [selectedFilter.category]);
 
   const sort = [
     { value: "newest", label: "Newest" },
@@ -125,17 +152,15 @@ const ProductClient = () => {
     try {
       setLoading(true);
       const skip = (currentPage - 1) * limit;
-      let url = "https://dummyjson.com/products";
+      let endpoint = "/products";
 
       if (selectedFilter.category) {
-        url = `https://dummyjson.com/products/category/${selectedFilter.category}`;
+        endpoint = `/products/category/${selectedFilter.category}`;
       }
 
-      url += `?limit=${limit}&skip=${skip}`;
-
-      const res = await fetch(url);
-      const data = await res.json();
-      let fetchedProducts = data.products;
+      const res = await api.get(endpoint, { params: { limit, skip } });
+      let fetchedProducts = res.data.products;
+      let total = res.data.total;
 
       // Apply sort frontend
       if (selectedFilter.sort) {
@@ -143,7 +168,7 @@ const ProductClient = () => {
       }
 
       setProducts(fetchedProducts);
-      setTotalProducts(data.total); // ✅ total update
+      setTotalProducts(total); // ✅ total update
     } catch (error) {
       toast.error(error.message);
       console.log(error);
@@ -202,14 +227,14 @@ const ProductClient = () => {
   }, [filter]);
 
   return (
-    <section className="flex flex-col gap-y-1 md:gap-y-5 xl:gap-y-14">
+    <section className="flex flex-col  md:gap-y-5 xl:gap-y-14">
       <Toaster position="top-center" />
       <Breadcrumb text={"Products"} />
       <Container className="flex gap-x-7 overflow-hidden w-full">
         {/* Filter Section */}
         <div
           ref={filterRef}
-          className={`filter absolute sm:static w-[80vw] sm:w-1/4 sm:flex flex-col bg-white p-3 sm:py-0 rounded border border-secondary sm:border-transparent ${
+          className={`filter absolute sm:static w-[75vw] sm:w-1/4 sm:flex flex-col bg-white p-3 sm:py-0 rounded border border-secondary sm:border-transparent  z-40 ${
             filter ? "translate-x-0" : "translate-x-[-120%]"
           } transition-transform duration-500 ease-in-out sm:translate-x-0`}
         >
@@ -224,7 +249,7 @@ const ProductClient = () => {
           </div>
 
           {categoryGroups.map((group, index) => (
-            <div key={index} className="md:py-2">
+            <div key={index} className="py-3 ">
               <p
                 className="font-medium text-gray-700 cursor-pointer flex justify-between items-center border-t  border-secondary py-2"
                 onClick={() => toggleSection(group.name)}
@@ -277,7 +302,11 @@ const ProductClient = () => {
         </div>
 
         {/* Products Section */}
-        <div className="products !w-full sm:!w-3/4 flex flex-col gap-y-5 py-3">
+        <div className="products !w-full sm:!w-3/4 flex flex-col gap-y-5 py-3 ">
+          <div
+            onClick={() => setFilter(false)}
+            className={`absolute z-20 h-full w-full bg-black/50 top-0 left-0  ${filter ? "block" : "hidden"}`}
+          ></div>
           {/* Sort & Limit */}
           <div className="sort flex items-center justify-between gap-x-3 text-gray-700 text-sm md:text-base">
             <button
@@ -349,7 +378,7 @@ const ProductClient = () => {
                     image={item.images?.[0]}
                     price={item.price}
                     key={item.id}
-                    sku={item.sku}
+                    id={item.id}
                   />
                 ))}
               </div>

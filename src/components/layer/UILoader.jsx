@@ -17,7 +17,7 @@ const UiLoader = () => {
 
 const StyledWrapper = styled.div`
   .three-body {
-    --uib-size: 35px;
+    --uib-size: 80px;
     --uib-speed: 0.8s;
     --uib-color: #5d3fd3;
     position: relative;

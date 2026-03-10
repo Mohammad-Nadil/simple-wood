@@ -7,14 +7,30 @@ import Footer from "@/components/Footer";
 import LenisProvider, { ReactLenis } from "@/components/layer/LenisProvider";
 import MagicMouseCursor from "@/components/layer/MagicMouseCursor";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import UiLoader from "@/components/layer/UILoader";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "auto" });
   }, [pathname]);
+
+  useEffect(() => {
+    const handleLoad = () => {
+      setLoading(false);
+    };
+
+    if (document.readyState === "complete") {
+      setLoading(false);
+    } else {
+      window.addEventListener("load", handleLoad);
+    }
+
+    return () => window.removeEventListener("load", handleLoad);
+  }, []);
   return (
     <>
       <html lang="en">
@@ -34,10 +50,17 @@ export default function RootLayout({ children }) {
               cz-shortcut-listen="true"
               className="flex flex-col min-h-screen justify-between "
             >
-              {/* <MagicMouseCursor/> */}
-              <Navbar />
-              {children}
-              <Footer />
+              {loading ? (
+                <div className="fixed inset-0 flex items-center justify-center bg-white z-[9999]">
+                  <UiLoader />
+                </div>
+              ) : (
+                <>
+                  <Navbar />
+                  {children}
+                  <Footer />
+                </>
+              )}
             </body>
           </LenisProvider>
         </Provider>

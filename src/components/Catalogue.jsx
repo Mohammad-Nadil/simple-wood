@@ -23,99 +23,62 @@ import tops from "../../public/tops.webp";
 import womensDresses from "../../public/womens-dresses.webp";
 import Link from "next/link";
 
+const CatalogueCard = ({ item, index }) => {
+  return (
+    <div
+      className=" border border-gray-200 hover:border-primary duration-300 relative group cursor-pointer"
+    >
+      <Link
+        href={`/products?category=${item.title}`}
+        className="w-full flex flex-col gap-3"
+      >
+        <div className="img md:px-6 xl:px-28 py-3 md:py-8 xl:py-16  overflow-hidden">
+          <Image
+            src={item.img}
+            alt="Product img "
+            className="group-hover:scale-125 duration-500"
+          />
+        </div>
+        <div className="title flex gap-2 md:text-xl items-center font-semibold sm:absolute bottom-0 left-0 -translate-y-full translate-x-1/10 ">
+          <FaPlus className="text-primary rounded-full bg-primary/30 p-0.5" />
+          <p className="capitalize group-hover:text-primary duration-300">
+            {item.title}
+          </p>
+        </div>
+      </Link>
+    </div>
+  );
+};
+
 const Catalogue = () => {
   let category = [
-    "furniture",
-    "home-decoration",
-    "groceries",
-    "laptops",
-    "smartphones",
-    "fragrances",
-    "skincare",
-    "mens-shirts",
-    "tops",
-    "womens-dresses",
-  ];
-
-  let items = [
     { title: "furniture", img: furniture },
     { title: "laptops", img: laptops },
-    { title: "home-decoration", img: homeDecoration },
+    { title: "home-decor", img: homeDecoration },
     { title: "groceries", img: groceries },
     { title: "tops", img: tops },
-  ];
-  let items2 = [
     { title: "smartphones", img: smartphones },
     { title: "fragrances", img: fragrances },
     { title: "mens-shirts", img: mensShirts },
-    { title: "womens-dresses", img: womensDresses },
+    { title: "womens-dress", img: womensDresses },
     { title: "skincare", img: skincare },
   ];
 
+  let items = category.slice(0, 5);
+  let items2 = category.slice(5, 10);
+
   return (
-    <section>
-      <Container className="flex gap-x-2.5 md:gap-x-5 py-5">
+    <section className="overflow-x-clip">
+      <Container className="flex gap-x-2 md:gap-x-5 py-5">
         <div className="left w-1/2 flex flex-col gap-2 md:gap-5">
           {items.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
-              viewport={{ once: true }}
-              className=" group"
-            >
-              <Link
-                href={`/products?category=${item.title}`}
-                className="w-full flex flex-col gap-3"
-              >
-                <div className="img md:px-6 xl:px-28 py-3 md:py-8 xl:py-16 border border-gray-300 group-hover:border-primary duration-300 overflow-hidden">
-                  <Image
-                    src={item.img}
-                    alt="Product img "
-                    className="group-hover:scale-125 duration-500"
-                  />
-                </div>
-                <div className="title flex gap-2 md:text-xl items-center font-semibold">
-                  <FaPlus className="text-primary rounded-full bg-primary/30 p-0.5" />
-                  <p className="capitalize group-hover:text-primary duration-300">
-                    {item.title}
-                  </p>
-                </div>
-              </Link>
-            </motion.div>
+            <CatalogueCard item={item} index={index} key={index} />
           ))}
         </div>
 
         <div className="right w-1/2 flex flex-col gap-5">
           {items2.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
-              viewport={{ once: true }}
-              className=" group"
-            >
-              <Link
-                href={`/products?category=${item.title}`}
-                className="w-full flex flex-col gap-3"
-              >
-                <div className="img md:px-6 xl:px-28 py-2 md:py-4 xl:py-16 border border-gray-300 group-hover:border-primary duration-300 overflow-hidden object-center">
-                  <Image
-                    src={item.img}
-                    alt="Product img "
-                    className="group-hover:scale-125 object-center duration-500"
-                  />
-                </div>
-                <div className="title flex gap-2 md:text-xl items-center font-semibold">
-                  <FaPlus className="text-primary rounded-full bg-primary/30 p-0.5" />
-                  <p className="capitalize group-hover:text-primary duration-300">
-                    {item.title}
-                  </p>
-                </div>
-              </Link>
-            </motion.div>
+            <CatalogueCard item={item} index={index} key={index} />
           ))}
         </div>
       </Container>
