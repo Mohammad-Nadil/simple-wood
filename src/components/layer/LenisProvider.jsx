@@ -1,7 +1,7 @@
 "use client";
 
+import Lenis from "lenis";
 import { useEffect } from "react";
-import Lenis from "@studio-freight/lenis";
 
 export default function LenisProvider({ children }) {
   useEffect(() => {
