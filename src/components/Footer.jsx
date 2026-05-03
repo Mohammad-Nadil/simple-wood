@@ -11,31 +11,10 @@ const Footer = () => {
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1 }}
       viewport={{ once: true }}
-      className="bg-black py-7 md:py-9"
+      className="bg-black pb-7 pt-5 md:py-9"
     >
       <Container className="flex flex-col gap-y-5 md:gap-y-10 xl:gap-y-14">
-        <div className="main text-white flex flex-col md:flex-row items-center md:justify-between gap-y-5">
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            viewport={{ once: true }}
-            className="policy flex items-center justify-center gap-x-5 xl:gap-10 text-sm md:text-base"
-          >
-            {["Privacy Policy", "Terms & Conditions", "Help"].map(
-              (item, index) => (
-                <motion.p
-                  key={index}
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 0.3 }}
-                  className="hover:underline duration-300 text-nowrap cursor-pointer"
-                >
-                  {item}
-                </motion.p>
-              )
-            )}
-          </motion.div>
-
+        <div className="main text-white flex  items-center justify-between gap-y-5">
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
@@ -43,7 +22,7 @@ const Footer = () => {
             viewport={{ once: true }}
             className="logo order-first md:order-none"
           >
-            <img src="/whiteLogo.png" alt="logo" className="w-24 md:w-32" />
+            <img src="/whiteLogo.png" alt="logo" className="w-32" />
           </motion.div>
 
           <motion.div
@@ -56,7 +35,10 @@ const Footer = () => {
             <p className="hidden xl:flex">Follow Us on Social</p>
             <div className="icons flex gap-5">
               {[
-                <FaFacebookF />, <FaYoutube />, <FaTwitter />, <FaGoogle />,
+                <FaFacebookF />,
+                <FaYoutube />,
+                <FaTwitter />,
+                <FaGoogle />,
               ].map((item, index) => (
                 <motion.div
                   key={index}

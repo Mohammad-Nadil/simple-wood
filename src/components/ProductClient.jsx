@@ -18,12 +18,12 @@ import api from "@/lib/api";
 const ProductClient = () => {
   const searchParams = useSearchParams();
   const [categoryFilter, setCategoryFilter] = useState(true);
-  const limitOption = [9, 12, 15, 18, 21, 24, 27, 30];
+  const limitOption = [ 12, 15, 18, 21, 24, 27, 30];
   const [totalProducts, setTotalProducts] = useState(0);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState(false);
-  const [limit, setLimit] = useState(9);
+  const [limit, setLimit] = useState(12);
   const [currentPage, setCurrentPage] = useState(1);
 
   const [selectedFilter, setSelectedFilter] = useState({

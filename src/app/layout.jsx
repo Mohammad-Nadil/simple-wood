@@ -1,7 +1,5 @@
 "use client";
 import "./globals.css";
-import { Provider } from "react-redux";
-import { store } from "./redux/store";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import LenisProvider, { ReactLenis } from "@/components/layer/LenisProvider";
@@ -9,6 +7,7 @@ import MagicMouseCursor from "@/components/layer/MagicMouseCursor";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import UiLoader from "@/components/layer/UILoader";
+import { Toaster } from "react-hot-toast";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
@@ -44,26 +43,25 @@ export default function RootLayout({ children }) {
             href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
           />
         </head>
-        <Provider store={store}>
-          <LenisProvider>
-            <body
-              cz-shortcut-listen="true"
-              className="flex flex-col min-h-screen justify-between "
-            >
-              {loading ? (
-                <div className="fixed inset-0 flex items-center justify-center bg-white z-[9999]">
-                  <UiLoader />
-                </div>
-              ) : (
-                <>
-                  <Navbar />
-                  {children}
-                  <Footer />
-                </>
-              )}
-            </body>
-          </LenisProvider>
-        </Provider>
+        <LenisProvider>
+          <body
+            cz-shortcut-listen="true"
+            className="flex flex-col min-h-screen justify-between "
+          >
+            {loading ? (
+              <div className="fixed inset-0 flex items-center justify-center bg-white z-[9999]">
+                <UiLoader />
+              </div>
+            ) : (
+              <>
+                <Navbar />
+                <Toaster />
+                {children}
+                <Footer />
+              </>
+            )}
+          </body>
+        </LenisProvider>
       </html>
     </>
   );

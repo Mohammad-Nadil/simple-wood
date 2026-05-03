@@ -1,7 +1,6 @@
 "use client";
 import Breadcrumb from "@/components/layer/Breadcrumb";
 import Container from "@/components/layer/Container";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import {
   FaArrowLeft,
@@ -15,10 +14,12 @@ import {
 import ProductCard from "@/components/layer/ProductCard";
 import Slider from "react-slick";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import UiLoader from "@/components/layer/UILoader";
 import { IoMail } from "react-icons/io5";
 import api from "@/lib/api";
+import { Image } from "antd";
+import { useCartStore } from "../../../store/cartStore";
 
 function SampleNextArrow(props) {
   const { className, onClick } = props;
@@ -70,10 +71,18 @@ const Accordion = ({ title, children }) => {
 
 const page = () => {
   const { id } = useParams();
+  const router = useRouter();
+
+  const addToCart = useCartStore((state) => state.addToCart);
+  const setBuyNowProduct = useCartStore((state) => state.setBuyNowProduct);
 
   let [product, setProduct] = useState(null);
   let [quantity, setQuantity] = useState(1);
   let [active, setActive] = useState(0);
+  let [added, setAdded] = useState(false);
+
+  const cart = useCartStore((state) => state.cart);
+  const isInCart = cart.some((item) => item.id === product?.id);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -89,15 +98,41 @@ const page = () => {
     fetchData();
   }, [id]);
 
+  const handleAddToCart = () => {
+    addToCart({
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      image: product.images?.[0],
+      brand: product.brand,
+      category: product.category,
+    });
+
+    setAdded(true);
+
+    setTimeout(() => {
+      setAdded(false);
+    }, 1200);
+  };
+
+  const handleBuyNow = () => {
+    setBuyNowProduct({
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      image: product.images?.[0],
+      brand: product.brand,
+      category: product.category,
+    });
+    router.push("/checkout");
+  };
+
   let settings = {
     dots: true,
-    infinite: true,
+    infinite: product?.images?.length > 1,
     arrows: true,
     speed: 500,
-    autoplay: true,
-    autoplaySpeed: 3000,
     cssEase: "linear",
-    // fade: true,
     slidesToShow: 1,
     slidesToScroll: 1,
     nextArrow: <SampleNextArrow />,
@@ -108,8 +143,7 @@ const page = () => {
           className="w-full flex items-center gap-x-2 justify-center"
           style={{ margin: "0px" }}
         >
-          {" "}
-          {dots}{" "}
+          {dots}
         </ul>
       </div>
     ),
@@ -128,7 +162,7 @@ const page = () => {
   };
   if (!product) {
     return (
-      <div className=" ">
+      <div className="">
         <Breadcrumb text="Product details" />
         <div className="h-full ">
           <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -147,11 +181,10 @@ const page = () => {
             <div className="images w-full lg:w-7/12 xl:w-3/5 aspect-video   xl:p-8 slider-container relative ">
               <Slider {...settings}>
                 {product.images.map((img, index) => (
-                  <img
+                  <Image
                     key={index}
-                    className="w-full  object-contain aspect-square lg:aspect-20/8 scale-x-[-1]  "
+                    className="w-full  object-contain aspect-video lg:aspect-20/8   "
                     src={img}
-                    fill
                     alt="product image"
                   />
                 ))}
@@ -217,18 +250,27 @@ const page = () => {
                 </div>
               </div>
               <div className="addToCart btn flex gap-x-7">
-                <Link
-                  href="/checkout"
+                <button
+                  onClick={handleBuyNow}
                   className="text-white rounded-sm sm:rounded-md bg-primary py-2 md:py-3 px-3.5 md:px-5 font-semibold hover:bg-primary/80 hover:scale-105 duration-300"
                 >
                   Buy now
-                </Link>
-                <Link
-                  href="/cart"
-                  className=" bg-secondary rounded-sm sm:rounded-md py-2 md:py-3 px-3.5 md:px-5 font-semibold hover:bg-secondary/80 hover:scale-105 duration-300"
-                >
-                  Add to cart
-                </Link>
+                </button>
+                {!isInCart ? (
+                  <button
+                    onClick={handleAddToCart}
+                    className={`rounded-sm sm:rounded-md py-2 md:py-3 px-3.5 md:px-5 font-semibold duration-300 cursor-pointer ${added ? "bg-green-500 text-white scale-110" : "bg-secondary hover:bg-secondary/80 hover:scale-105"}`}
+                  >
+                    {added ? "✓ Added!" : "Add to cart"}
+                  </button>
+                ) : (
+                  <Link
+                    href="/cart"
+                    className="rounded-sm sm:rounded-md py-2 md:py-3 px-3.5 md:px-5 font-semibold bg-primary text-white hover:scale-105 duration-300"
+                  >
+                    View in cart
+                  </Link>
+                )}
               </div>
               {/* <div className="more features text-gray-500 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-y-2 xl:gap-x-8 ">
                 <a className="addToWishlist cursor-pointer  flex items-center gap-x-2 font-semibold hover:scale-110 duration-300">
@@ -250,8 +292,8 @@ const page = () => {
             <Accordion title="Description">{product.description}</Accordion>
 
             <Accordion title="Product Dimensions">
-              Width: {product.dimensions.width} inches, Height:{" "}
-              {product.dimensions.height} inches, Depth:{" "}
+              Width: {product.dimensions.width} inches, Height:
+              {product.dimensions.height} inches, Depth:
               {product.dimensions.depth} inches.
             </Accordion>
 

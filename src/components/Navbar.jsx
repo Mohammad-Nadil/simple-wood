@@ -41,7 +41,7 @@ const Navbar = ({bg}) => {
             <motion.div
               whileHover={{ scale: 1.2 }}
               whileTap={{ scale: 0.9 }}
-              className="search cursor-pointer"
+              className="search cursor-pointer hidden"
             >
               <IoSearchOutline />
             </motion.div>
