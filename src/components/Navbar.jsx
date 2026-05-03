@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { motion } from "framer-motion";
 import Container from "./layer/Container";
@@ -8,16 +9,18 @@ import Image from "next/image";
 import whiteLogo from "../../public/whiteLogo.png";
 import Link from "next/link";
 
-const Navbar = ({bg}) => {
+const Navbar = ({ bg }) => {
   return (
     <motion.nav
       initial={{ opacity: 0, y: -50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="absolute top-0 left-0 right-0 w-full"
+      className="sticky bg-black top-0 left-0 right-0 z-99999999999 w-full"
     >
       <Container>
-        <div className={`main flex justify-between items-center w-full py-0 ${bg}`}>
+        <div
+          className={`main flex justify-between items-center w-full py-0 ${bg}`}
+        >
           <motion.div
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}

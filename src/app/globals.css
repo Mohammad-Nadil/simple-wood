@@ -11,3 +11,12 @@
   --color-primary: #7DB800;
   --color-secondary: #F2F2F2;
 }
+
+.swiper-pagination-bullet {
+  background: #F2F2F266 !important; /* inactive color */
+  opacity: 1;
+}
+
+.swiper-pagination-bullet-active {
+  background: #7DB800 !important; /* active color (yellow example) */
+}

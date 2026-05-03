@@ -5,25 +5,34 @@ import Link from "next/link";
 
 const Breadcrumb = ({ text, link }) => {
   return (
-    <>
-      <section className="pt-16  bg-[#212121]">
-        <div className=" bg-[url('/bannerBg.png')] py-3 md:py-5 xl:py-9">
-          <Container>
-            <div className="top">
-              <Link
-                href="/"
-                className="text-white/70 flex gap-x-1.5 md:gap-x-3 items-center"
-              >
-                Home <FaAngleRight /> {text}
-              </Link>
-            </div>
-            <Link href={`/${link}`} className="head text-2xl md:text-4xl text-white font-semibold">
-              {text}
+    <section className="">
+      <div className="bg-[url('/bannerBg.png')] py-3 md:py-5 xl:py-9">
+        <Container>
+          <div className="flex items-center gap-2 text-white/70 text-sm md:text-base">
+            <Link href="/" className="hover:text-white transition">
+              Home
             </Link>
-          </Container>
-        </div>
-      </section>
-    </>
+
+            <FaAngleRight className="text-xs" />
+
+            {link ? (
+              <>
+                <Link href={`/${link}`} className="hover:text-white transition">
+                  {link}
+                </Link>
+                <FaAngleRight className="text-xs" />
+              </>
+            ) : null}
+
+            <span className="text-white">{text}</span>
+          </div>
+
+          <h1 className="text-2xl md:text-4xl text-white font-semibold mt-2">
+            {text}
+          </h1>
+        </Container>
+      </div>
+    </section>
   );
 };
 
