@@ -96,17 +96,17 @@ const Banner = () => {
             <SwiperSlide key={index} className=" ">
               <div className="w-full">
                 <div className="flex items-center flex-col-reverse sm:flex-row w-full px-5 xl:px-10">
-                  <div className="title w-full sm:w-7/12 flex flex-col gap-y-5 md:gap-y-10 py-5 items-center">
+                  <div className="title w-full sm:w-7/12 flex flex-col gap-y-5 md:gap-y-10 py-5 items-center text">
                     <div className="text-white flex flex-col gap-y-2 sm:gap-y-4 sm:w-2/3">
                       <h1 className="text-2xl md:text-4xl xl:text-5xl font-bold text-center sm:text-start ">
                         {item.title.map((line, idx) => (
-                          <div key={idx} className="flex ">
+                          <div key={idx} className="flex flex-col items-center sm:items-start ">
                             {line}
                             {idx < item.title.length - 1 && <br />}
                           </div>
                         ))}
                       </h1>
-                      <p className="text-sm md:text-base xl:text-lg text-center sm:text-start">
+                      <p className="text-sm md:text-base xl:text-lg text-center sm:text-start w-4/5 mx-auto sm:mx-0 sm:w-full">
                         {item.des}
                       </p>
                     </div>
