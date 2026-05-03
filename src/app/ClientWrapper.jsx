@@ -48,5 +48,9 @@ export default function ClientWrapper({ children }) {
     );
   }
 
-  return <div className="w-full h-full relative max-w-screen overflow-x-clip">{children}</div>;
+  return (
+    <div className="w-full h-full min-h-screen relative max-w-screen overflow-x-clip">
+      {children}
+    </div>
+  );
 }

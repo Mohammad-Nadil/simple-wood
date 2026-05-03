@@ -19,13 +19,13 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body
         cz-shortcut-listen="true"
-        className="flex flex-col min-h-screen justify-between"
+        className="flex flex-col min-h-screen! justify-between"
       >
         <LenisProvider>
           <ClientWrapper>
             <Navbar />
             <Toaster />
-            {children}
+            <div className="flex-1">{children}</div>
             <Footer />
           </ClientWrapper>
         </LenisProvider>

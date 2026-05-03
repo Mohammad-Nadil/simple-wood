@@ -1,6 +1,4 @@
-"use client";
 import React from "react";
-import { motion } from "framer-motion";
 import Container from "./layer/Container";
 import { FaBarsStaggered } from "react-icons/fa6";
 import { IoSearchOutline } from "react-icons/io5";
@@ -11,56 +9,44 @@ import Link from "next/link";
 
 const Navbar = ({ bg }) => {
   return (
-    <motion.nav
-      initial={{ opacity: 0, y: -50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+    <nav
       className="sticky bg-black top-0 left-0 right-0 z-99999999999 w-full"
     >
       <Container>
         <div
           className={`main flex justify-between items-center w-full py-0 ${bg}`}
         >
-          <motion.div
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+          <div
             className="menuBtn hidden sm:flex invisible"
           >
             <FaBarsStaggered />
-          </motion.div>
+          </div>
           <div className="logo magic-hover">
             <Link href="/">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
+              <div
                 className="main flex w-40 pb-4 hover:scale-110 duration-300"
               >
                 <Image src={whiteLogo} alt="logo" />
-              </motion.div>
+              </div>
             </Link>
           </div>
           <div className="btn text-white flex items-center gap-x-4 text-2xl">
-            <motion.div
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 0.9 }}
+            <div
               className="search cursor-pointer hidden"
             >
               <IoSearchOutline />
-            </motion.div>
+            </div>
             <Link href="/cart">
-              <motion.div
-                whileHover={{ scale: 1.2 }}
-                whileTap={{ scale: 0.9 }}
+              <div
                 className="cart cursor-pointer"
               >
                 <FiShoppingBag />
-              </motion.div>
+              </div>
             </Link>
           </div>
         </div>
       </Container>
-    </motion.nav>
+    </nav>
   );
 };
 

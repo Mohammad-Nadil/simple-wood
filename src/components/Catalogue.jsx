@@ -47,14 +47,14 @@ const Catalogue = () => {
   let category = [
     { title: "furniture", img: furniture },
     { title: "laptops", img: laptops },
-    { title: "home-decor", img: homeDecoration },
+    { title: "home-decoration", img: homeDecoration },
     { title: "groceries", img: groceries },
     { title: "tops", img: tops },
     { title: "smartphones", img: smartphones },
     { title: "fragrances", img: fragrances },
     { title: "mens-shirts", img: mensShirts },
-    { title: "womens-dress", img: womensDresses },
-    { title: "skincare", img: skincare },
+    { title: "womens-dresses", img: womensDresses },
+    { title: "skin-care", img: skincare },
   ];
 
   let items = category.slice(0, 5);
