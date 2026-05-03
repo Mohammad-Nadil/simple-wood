@@ -96,9 +96,9 @@ const Banner = () => {
             <SwiperSlide key={index} className=" ">
               <div className="w-full">
                 <div className="flex items-center flex-col-reverse sm:flex-row w-full px-5 xl:px-10">
-                  <div className="title w-full sm:w-1/2 flex flex-col gap-y-5 md:gap-y-10 py-5 items-center">
+                  <div className="title w-full sm:w-7/12 flex flex-col gap-y-5 md:gap-y-10 py-5 items-center">
                     <div className="text-white flex flex-col gap-y-2 sm:gap-y-4 sm:w-2/3">
-                      <h1 className="text-2xl md:text-4xl font-bold text-center sm:text-start ">
+                      <h1 className="text-2xl md:text-4xl xl:text-5xl font-bold text-center sm:text-start ">
                         {item.title.map((line, idx) => (
                           <div key={idx} className="flex ">
                             {line}
@@ -106,7 +106,7 @@ const Banner = () => {
                           </div>
                         ))}
                       </h1>
-                      <p className="text-sm md:text-base text-center sm:text-start">
+                      <p className="text-sm md:text-base xl:text-lg text-center sm:text-start">
                         {item.des}
                       </p>
                     </div>
@@ -118,7 +118,7 @@ const Banner = () => {
                       </Link>
                     </div>
                   </div>
-                  <div className="gallery w-full sm:w-1/2  grid grid-cols-5 grid-rows-2 gap-4  items-center">
+                  <div className="gallery w-full sm:w-5/12  grid grid-cols-5 grid-rows-2 gap-4  items-center">
                     <div className="col-span-2 row-span-1 overflow-hidden">
                       <Image
                         src={item.img[0]}
