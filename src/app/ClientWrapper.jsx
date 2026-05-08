@@ -42,7 +42,7 @@ export default function ClientWrapper({ children }) {
 
   if (loading) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-white z-[9999]">
+      <div className="fixed inset-0 min-h-screen!  flex flex-col items-center justify-center bg-white z-[9999]">
         <UiLoader />
       </div>
     );

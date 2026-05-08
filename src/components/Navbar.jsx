@@ -24,7 +24,7 @@ const Navbar = ({ bg }) => {
           <div className="logo magic-hover">
             <Link href="/">
               <div
-                className="main flex w-40 pb-4 hover:scale-110 duration-300"
+                className="main flex w-40 pb-4 cursor-pointer hover:brightness-50 duration-300"
               >
                 <Image src={whiteLogo} alt="logo" />
               </div>
@@ -38,7 +38,7 @@ const Navbar = ({ bg }) => {
             </div>
             <Link href="/cart">
               <div
-                className="cart cursor-pointer"
+                className="cart cursor-pointer hover:brightness-50 duration-300"
               >
                 <FiShoppingBag />
               </div>

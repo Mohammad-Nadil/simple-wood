@@ -1,13 +1,9 @@
-"use client"
-import UiLoader from '@/components/layer/UILoader'
-import React from 'react'
+import UiLoader from "@/components/layer/UILoader";
 
-const loading = () => {
+export default function Loading() {
   return (
-    <div>
+    <div className="min-h-screen flex items-center justify-center">
       <UiLoader />
     </div>
-  )
+  );
 }
-
-export default loading
