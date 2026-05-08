@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# SIMPLE WOOD
 
-## Getting Started
+Modern Furniture E-commerce Website built with Next.js, React.js, Tailwind CSS, Zustand, Swiper, and optimized image loading techniques for a smooth and fast user experience.
 
-First, run the development server:
+---
+
+## 🚀 Features
+
+- Modern responsive UI
+- Fully responsive for mobile, tablet, and desktop
+- Dynamic product details page
+- Add to cart functionality
+- Buy now checkout flow
+- Product image gallery slider
+- Accordion product information section
+- Skeleton image loading
+- Custom page loader
+- Blur image placeholders
+- Optimized image rendering using `next/image`
+- Zustand cart state management
+- Smooth transitions and hover effects
+- Fast and optimized loading experience
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+- Next.js
+- React.js
+- Tailwind CSS
+
+### State Management
+- Zustand
+
+### UI & Libraries
+- Swiper.js
+- React Icons
+- Ant Design Image
+
+---
+
+## ⚡ Performance Optimizations
+
+### Image Optimization
+- Used `next/image`
+- Added `priority` for above-the-fold images
+- Added `placeholder="blur"`
+- Added blur placeholders
+- Added aspect ratios to prevent layout shift
+- Added skeleton loading effect
+
+### Loading Optimization
+- Custom page loader
+- Critical image tracking
+- Smooth loader fade-out animation
+
+### UI Performance
+- Reduced unnecessary animations
+- Removed heavy `bg-fixed`
+- Reduced layout shifts
+- Optimized hover animations
+- Lazy loaded non-critical images
+
+---
+
+## 📦 Installation
+
+Clone the repository:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+git clone <your-repo-link>
