@@ -269,12 +269,12 @@ return (
         <h1 className="font-light text-3xl sm:text-4xl text-center">
           Related Products
         </h1>
-        <div className="main grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* <div className="main grid grid-cols-2 lg:grid-cols-4 gap-4">
           <ProductCard />
           <ProductCard />
           <ProductCard />
           <ProductCard />
-        </div>
+        </div> */}
       </div>
     </Container>
   </div>

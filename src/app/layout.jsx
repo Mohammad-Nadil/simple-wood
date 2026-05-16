@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import LenisProvider from "@/components/layer/LenisProvider";
 import { Toaster } from "react-hot-toast";
 import ClientWrapper from "./ClientWrapper";
+import ScrollToTop from "@/components/ScrollToTop";
 
 export const metadata = {
   title: "SIMPLE WOOD",
@@ -18,6 +19,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className="flex flex-col min-h-screen" cz-shortcut-listen="true">
         <LenisProvider>
+          <ScrollToTop />
           <Navbar />
           <div className="flex-1">{children}</div>
           <Footer />
