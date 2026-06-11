@@ -69,4 +69,4 @@ Modern Furniture E-commerce Website built with Next.js, React.js, Tailwind CSS, 
 Clone the repository:
 
 ```bash
-git clone <your-repo-link>
+git clone https://github.com/Mohammad-Nadil/simple-wood.git
